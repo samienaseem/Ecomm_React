@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 function ProductScreen(){
     const params = useParams()
     const {slug} =params
-    console.log(slug.slug) 
+    console.log(slug) 
     return(
         <div>
             <h1>{slug}</h1>
