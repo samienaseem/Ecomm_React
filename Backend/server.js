@@ -10,5 +10,6 @@ app.get('/api/product',(req,res)=>{
 const port=process.env.PORT || 4000
 
 app.listen(port,()=>{
-    console.log(`Server is running at http:/localhost:${port}`)
+    console.log(`Server is running at http://localhost:${port}`)
 }) 
+// http://localhost:4000/api/product
