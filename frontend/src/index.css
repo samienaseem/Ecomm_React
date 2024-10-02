@@ -13,7 +13,7 @@ main{
   padding: 1rem;
 }
 
-header{
+/* header{
   background-color: #28282b;
   padding: 1rem;
 }
@@ -24,7 +24,7 @@ header a {
     font-family: fantasy;
     font-weight: bolder;
     letter-spacing: 4px;
-}
+} */
 
 .products{
   display: flex;
