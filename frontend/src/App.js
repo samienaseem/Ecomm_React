@@ -24,7 +24,7 @@ function App() {
         <main>
           <Container fluid>
             <Routes>
-              <Route path="/products/:slug" element={<ProductScreen />} />
+              <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
