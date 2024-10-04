@@ -3,7 +3,7 @@ export default function Rating(props){
     const {rating,reviews} = props;
 
     return (
-      <div>
+      <div className="Rating">
         <span>
           <i
             className={
