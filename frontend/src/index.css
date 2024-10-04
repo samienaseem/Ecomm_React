@@ -40,7 +40,7 @@ header a {
 
 .product  {
   border: 1px solid green;
-  margin: 1rem;
+  /* margin: 1rem; */
  box-shadow: 2px 2px 8px lightgray;
 }
 .product img {
