@@ -1,6 +1,9 @@
-import axios from "axios"
-import { useEffect, useReducer } from "react"
-import { useParams } from "react-router-dom"
+import axios from "axios";
+import { useEffect, useReducer } from "react";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { useParams } from "react-router-dom";
+import Product from '../Components/Product';
 
 const reducer=(state,action)=>{
     switch(action.type){
@@ -44,7 +47,11 @@ function ProductScreen(){
         ) : error ? (
           <h5>{error}</h5>
         ) : (
-          <h1>{slug}</h1>
+          <Row>
+            <Col sm='6' md='4' lg='3' className="mb-3">
+              <Product product={product}></Product>
+            </Col>
+          </Row>
         )}
       </div>
     );
