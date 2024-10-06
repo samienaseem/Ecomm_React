@@ -48,7 +48,11 @@ function ProductScreen(){
           <h5>{error}</h5>
         ) : (
           <Row>
-            <Col sm='6' md='4' lg='3' className="mb-3">
+            <Col sm="6" md="4" className="mb-3">
+              <Product product={product}></Product>
+            </Col>
+
+            <Col sm="6" md="4" lg="3" className="mb-3">
               <Product product={product}></Product>
             </Col>
           </Row>
