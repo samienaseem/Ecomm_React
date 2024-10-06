@@ -3,7 +3,6 @@ import { useEffect, useReducer } from "react";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useParams } from "react-router-dom";
-import Product from '../Components/Product';
 
 const reducer=(state,action)=>{
     switch(action.type){
@@ -48,13 +47,17 @@ function ProductScreen(){
           <h5>{error}</h5>
         ) : (
           <Row>
-            <Col sm="6" md="4" className="mb-3">
-              <Product product={product}></Product>
+            <Col md={6}>
+              <div>
+                <img
+                  className="img-large"
+                  src={product.image}
+                  alt={product.name}
+                ></img>
+              </div>
             </Col>
-
-            <Col sm="6" md="4" lg="3" className="mb-3">
-              <Product product={product}></Product>
-            </Col>
+            <Col sm={3}></Col>
+            <Col sm={3}></Col>
           </Row>
         )}
       </div>
