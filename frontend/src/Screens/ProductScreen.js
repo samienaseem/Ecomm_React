@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
 import Col from 'react-bootstrap/Col';
+import Container from "react-bootstrap/esm/Container";
+import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import { useParams } from "react-router-dom";
+import Rating from "../Components/Rating";
 
 const reducer=(state,action)=>{
     switch(action.type){
@@ -40,32 +43,49 @@ function ProductScreen(){
         fetchProduct();
     },[slug])
     return (
-      <div>
-        {loading ? (
-          <h5>Loading...</h5>
-        ) : error ? (
-          <h5>{error}</h5>
-        ) : (
-          <Row>
-            <Col md={6}>
-              <div>
-                <img
-                  className="img-large"
-                  src={product.image}
-                  alt={product.name}
-                ></img>
-              </div>
-            </Col>
-            <Col sm={3}>
-              <div>
-                <h2>{product.name}</h2>
-              </div>
-            </Col>
+      <Container>
+        <div>
+          {loading ? (
+            <h5>Loading...</h5>
+          ) : error ? (
+            <h5>{error}</h5>
+          ) : (
+            <Row>
+              <Col md={6}>
+                <div>
+                  <img
+                    className="img-large"
+                    src={product.image}
+                    alt={product.name}
+                  ></img>
+                </div>
+              </Col>
+              <Col sm={3}>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <h1>{product.name}</h1>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Rating
+                      rating={product.rating}
+                      reviews={[product.numReviews]}
+                    ></Rating>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Price: £{product.price}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Description:
+                    <p>{product.description}</p>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Col>
 
-            <Col sm={3}></Col>
-          </Row>
-        )}
-      </div>
+              <Col sm={3}></Col>
+            </Row>
+          )}
+        </div>
+      </Container>
     );
 }
 export default ProductScreen
