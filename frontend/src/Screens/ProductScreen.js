@@ -56,7 +56,12 @@ function ProductScreen(){
                 ></img>
               </div>
             </Col>
-            <Col sm={3}></Col>
+            <Col sm={3}>
+              <div>
+                <h2>{product.name}</h2>
+              </div>
+            </Col>
+
             <Col sm={3}></Col>
           </Row>
         )}
