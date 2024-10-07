@@ -7,6 +7,7 @@ import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import Rating from "../Components/Rating";
 
@@ -26,7 +27,7 @@ const reducer=(state,action)=>{
 function ProductScreen(){
     const params = useParams()
     const {slug} =params
-    console.log(slug) 
+    console.log({'slug': slug, 'Params': params}) 
     const [{loading,error,product},dispatch]=useReducer(reducer,{
         product: [],
         loading: true,
@@ -66,6 +67,9 @@ function ProductScreen(){
               <Col sm={3}>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
+                    <Helmet>
+                        <title>{product.name}</title>
+                    </Helmet>
                     <h1>{product.name}</h1>
                   </ListGroup.Item>
                   <ListGroup.Item>
@@ -96,8 +100,9 @@ function ProductScreen(){
                         <Row>
                           <Col>Status:</Col>
                           <Col>{product.countInStock > 0 ?
-                          <Badge bg='success'>In Stock</Badge> 
-                        : <Badge bg='danger'>Unavailable</Badge>}</Col>
+                            <Badge bg='success'>In Stock</Badge> 
+                            : <Badge bg='danger'>Unavailable</Badge>}
+                            </Col>
                         </Row>
                       </ListGroup.Item>
                       {product.countInStock>0 && (

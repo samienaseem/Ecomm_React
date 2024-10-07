@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useEffect, useReducer } from "react";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { Helmet } from 'react-helmet-async';
+import Loading from '../Components/Loading';
 import Product from '../Components/Product';
 
 const reducer =(state,action)=>{
@@ -43,10 +45,14 @@ function HomeScreen(){
 
     return (
       <div>
+        <Helmet>
+          <title>11th Street Atelier</title>
+        </Helmet>
         <h1>Featured products</h1>
         <div className="products">
           {loading ? (
-            <h3>Loading...</h3>
+            <Loading></Loading>
+            // <h3>Loading...</h3>
           ) : error ? (
             <h3>{error}</h3>
           ) : (
