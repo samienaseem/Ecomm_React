@@ -56,3 +56,6 @@ header a {
 .Rating span{
   color: #ffc000;
 }
+.ProductScreen .img-large {
+  max-width: 100%;
+}

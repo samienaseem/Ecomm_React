@@ -60,6 +60,18 @@ const data = {
       numReviews: 10,
       description: 'high quality products',
     },
+    {
+      name: 'Popcorn Tshirt',
+      slug: '11ST_CLR_POPBLUE',
+      category: 'Tshirts',
+      image: '/images/p5.png',
+      price: 54,
+      countInStock: 10,
+      brand: '11th Street Atelier',
+      rating: 4.3,
+      numReviews: 100,
+      description: 'high quality products',
+    },
   ],
 };
 export default data;

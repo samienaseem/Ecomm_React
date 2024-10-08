@@ -50,7 +50,7 @@ function ProductScreen(){
         fetchProduct();
     },[slug])
     return (
-      <Container>
+      <Container className="ProductScreen">
         <div>
           {loading ? (
             <LoadingBox />
@@ -69,7 +69,7 @@ function ProductScreen(){
                   ></img>
                 </div>
               </Col>
-              <Col sm={3}>
+              <Col sm={6} md={3}>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Helmet>
@@ -91,7 +91,7 @@ function ProductScreen(){
                 </ListGroup>
               </Col>
 
-              <Col sm={3}>
+              <Col sm={6} md={3}>
                 <Card>
                   <Card.Body>
                     <ListGroup variant="flush">
