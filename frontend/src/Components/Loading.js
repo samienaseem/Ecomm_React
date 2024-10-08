@@ -105,7 +105,7 @@ const icons = [
   </svg>,
 ];
 
-const Loading = () => {
+function Loading() {
   const [currentIconIndex, setCurrentIconIndex] = useState(0);
 
   useEffect(() => {
@@ -125,7 +125,6 @@ const Loading = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        backgroundColor: '#f0f0f0',
       }}
     >
       <div

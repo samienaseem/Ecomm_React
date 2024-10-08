@@ -12,9 +12,11 @@ app.get('/api/product/slug/:slug',(req,res)=>{
     console.log("printing from server")
     const product=data.Products.find((x)=>x.slug===req.params.slug)
     if(product){
+        console.log(product)
         res.status(200).send(product)
     }
     else{
+        console.log("Else in server has run ")
         res.status(404).send({message: "Product not found"});
     }
 })

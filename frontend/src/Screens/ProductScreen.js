@@ -9,6 +9,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
+import LoadingBox from "../Components/LoadingBox";
+import MessageBox from "../Components/MessageBox";
 import Rating from "../Components/Rating";
 
 const reducer=(state,action)=>{
@@ -41,6 +43,7 @@ function ProductScreen(){
                 console.log({'result':result,'message': "this is result log"});
                 dispatch({type:'FETCH_SUCCESS', payload: result.data})
             }catch(err){
+                console.log({message: 'this is log from catch exception', 'error':err.message });
                 dispatch({type:'FETCH_FAIL', payload: err.message})
             }
         };
@@ -50,10 +53,12 @@ function ProductScreen(){
       <Container>
         <div>
           {loading ? (
-            <h5>Loading...</h5>
-          ) : error ? (
-            <h5>{error}</h5>
+            <LoadingBox />
+          ) : // <h3>Loading...</h3>
+          error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
           ) : (
+            // <h3>{error}</h3>
             <Row>
               <Col md={6}>
                 <div>
@@ -68,7 +73,7 @@ function ProductScreen(){
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Helmet>
-                        <title>{product.name}</title>
+                      <title>{product.name}</title>
                     </Helmet>
                     <h1>{product.name}</h1>
                   </ListGroup.Item>
@@ -99,19 +104,22 @@ function ProductScreen(){
                       <ListGroup.Item>
                         <Row>
                           <Col>Status:</Col>
-                          <Col>{product.countInStock > 0 ?
-                            <Badge bg='success'>In Stock</Badge> 
-                            : <Badge bg='danger'>Unavailable</Badge>}
-                            </Col>
+                          <Col>
+                            {product.countInStock > 0 ? (
+                              <Badge bg="success">In Stock</Badge>
+                            ) : (
+                              <Badge bg="danger">Unavailable</Badge>
+                            )}
+                          </Col>
                         </Row>
                       </ListGroup.Item>
-                      {product.countInStock>0 && (
-                         <ListGroup.Item>
-                            <div className="d-grid">
-                                <Button varient='primary'>Add to Cart</Button>
-                            </div>
-                         </ListGroup.Item>
-                      ) }
+                      {product.countInStock > 0 && (
+                        <ListGroup.Item>
+                          <div className="d-grid">
+                            <Button varient="primary">Add to Cart</Button>
+                          </div>
+                        </ListGroup.Item>
+                      )}
                     </ListGroup>
                   </Card.Body>
                 </Card>
