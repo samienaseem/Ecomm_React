@@ -3,7 +3,7 @@ import { useEffect, useReducer } from "react";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from '../Components/LoadingBox';
+import Loading from '../Components/Loading';
 import MessageBox from '../Components/MessageBox';
 import Product from '../Components/Product';
 
@@ -52,7 +52,7 @@ function HomeScreen(){
         <h1>Featured products</h1>
         <div className="products">
           { loading ? (
-            <LoadingBox />
+            <Loading />
             // <h3>Loading...</h3>
           ) : error ? (
             <MessageBox variant="danger">{error}</MessageBox>
