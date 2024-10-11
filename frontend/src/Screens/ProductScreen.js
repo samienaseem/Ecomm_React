@@ -31,8 +31,8 @@ const reducer=(state,action)=>{
 
 
 function ProductScreen(){
-    const {count, setCount}=useContext(Store)
-    console.log({'state':count});
+    // const {count, setCount}=useContext(Store)
+    // console.log({'state':count});
     const params = useParams()
     const {slug} =params
     console.log({'slug': slug, 'Params': params}) 
@@ -56,6 +56,20 @@ function ProductScreen(){
         };
         fetchProduct();
     },[slug])
+
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    console.log({'initial':state})
+    function AddCartItemHandler(){
+        ctxDispatch({
+          type: 'CART_ADD_ITEM',
+          payload: { ...product, quantity: 1 },
+        });
+        
+
+    }
+    // ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product,quantity:1}})
+
+
     return (
       
         <Container className="ProductScreen">
@@ -124,7 +138,7 @@ function ProductScreen(){
                         {product.countInStock > 0 && (
                           <ListGroup.Item>
                             <div className="d-grid">
-                              <Button variant="primary" onClick={()=>setCount(count+1)}>Add to Cart</Button>
+                              <Button variant="primary" onClick={AddCartItemHandler}>Add to Cart</Button>
                             </div>
                           </ListGroup.Item>
                         )}
