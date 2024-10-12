@@ -98,7 +98,7 @@ const data = {
       category: 'Tshirts',
       image: '/images/p7.png',
       price: 54,
-      countInStock: 10,
+      countInStock: 4,
       brand: '11th Street Atelier',
       rating: 4.3,
       numReviews: 100,
