@@ -17,6 +17,9 @@ main{
   flex: 1;
   min-height: 100vh;
 }
+div{
+  border: 0.3px solid red;
+}
 
 /* header{
   background-color: #28282b;
@@ -56,4 +59,8 @@ header a {
 }
 .ProductScreen .img-large {
   max-width: 100%;
+}
+/* cartScreen Css */
+.cartItemTitle{
+  margin-bottom: 10px;
 }

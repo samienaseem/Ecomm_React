@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import Card from 'react-bootstrap/Card'
-import Button from "react-bootstrap/esm/Button"
+import Button from 'react-bootstrap/esm/Button'
 import Col from "react-bootstrap/esm/Col"
 import Container from "react-bootstrap/esm/Container"
 import Row from "react-bootstrap/esm/Row"
@@ -16,6 +16,13 @@ export default function CartScreen() {
     const {cart:{ cartItems },
     }=state
     console.log(cartItems)
+
+    const UpdateCartHandler=(item,quantity)=>{
+        alert({'quantity': quantity})
+    }
+    const UpdateCartHandler1 = (item, quantity) => {
+      alert("minus one ")
+    };
     return (
       <div>
         <Container>
@@ -25,7 +32,7 @@ export default function CartScreen() {
           <h1>Shopping Cart</h1>
 
           <Row>
-            <Col md={8}>
+            <Col md={9}>
               {cartItems.length === 0 ? (
                 <MessageBox>
                   Cart is Empty.
@@ -42,9 +49,41 @@ export default function CartScreen() {
                             src={item.image}
                             alt={item.name}
                           />{' '}
-                          <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                          {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
                         </Col>
-                        <Col md={3}>
+                        {/* -------MyVersion---------- */}
+                        <Col md={8}>
+                          <Row>
+                            <Col md={12} className="cartItemTitle">
+                              <Link to={`/product/${item.slug}`}>
+                                {item.name}
+                              </Link>
+                            </Col>
+                          </Row>
+                          <Row className="align-items-center">
+                            <Col md={5}>
+                              <Button disabled={item.quantity === 1} onClick={UpdateCartHandler1(item,item.quantity-1)}>
+                                <i className="fas fa-minus-circle"></i>
+                              </Button>{' '}
+                              <span>{item.quantity}</span>{' '}
+                              <Button 
+                                disabled={item.quantity === item.countInStock} onClick={()=>{
+                                    UpdateCartHandler(item,item.quantity+1)
+                                }}
+                               >
+                                <i className="fas fa-plus-circle"></i>
+                              </Button>{' '}
+                            </Col>
+                            <Col md={5}>£{item.price}</Col>
+                            <Col md={2}>
+                              <Button variant="light">
+                                <i className="fas fa-trash"></i>
+                              </Button>
+                            </Col>
+                          </Row>
+                        </Col>
+                        {/* ----------End---------- */}
+                        {/* <Col md={3}>
                           <Button disabled={item.quantity === 1}>
                             <i className="fas fa-minus-circle"></i>
                           </Button>{' '}
@@ -60,26 +99,32 @@ export default function CartScreen() {
                           <Button variant="light">
                             <i className="fas fa-trash"></i>
                           </Button>
-                        </Col>
+                        </Col> */}
                       </Row>
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
               )}
             </Col>
-            <Col md={4}>
-            <Card>
+            <Col md={3}>
+              <Card>
                 <Card.Body>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h3>
-                                Subtotal ({cartItems.reduce((a,c)=>a+c.quantity,0)} {' '}
-                                items) : £ {cartItems.reduce((a,c)=>a+c.price*c.quantity,0)}
-                            </h3>
-                        </ListGroup.Item>
-                    </ListGroup>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <h5>
+                        Subtotal (
+                        {cartItems.reduce((a, c) => a + c.quantity, 0)} items) :
+                        £{' '}
+                        {cartItems.reduce(
+                          (a, c) => a + c.price * c.quantity,
+                          0
+                        )}
+                      </h5>
+                      <Button variant="success">Proceed to checkout</Button>
+                    </ListGroup.Item>
+                  </ListGroup>
                 </Card.Body>
-            </Card>
+              </Card>
             </Col>
           </Row>
         </Container>
