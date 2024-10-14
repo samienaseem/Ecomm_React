@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Cart from './Screens/Cart';
+import CartScreen from './Screens/CartScreen';
 import HomeScreen from './Screens/HomeScreen';
 import ProductScreen from './Screens/ProductScreen';
 import { Store } from './Store';
@@ -44,7 +44,7 @@ function App() {
           <main>
             <Container fluid>
               <Routes>
-                <Route path='/cart' element={<Cart/>}/>
+                <Route path='/cart' element={<CartScreen/>}/>
                 <Route path="/product/:slug" element={<ProductScreen />} />
                 <Route path="/" element={<HomeScreen />} />
               </Routes>
