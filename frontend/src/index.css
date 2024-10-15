@@ -19,6 +19,7 @@ main{
 }
 div{
   border: 0.3px solid red;
+  transition: 0.5s ease-out;
 }
 
 /* header{
@@ -63,4 +64,7 @@ header a {
 /* cartScreen Css */
 .cartItemTitle{
   margin-bottom: 10px;
+}
+.cartItemQuantity{
+  margin: 0px 10px;
 }

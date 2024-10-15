@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useContext } from "react"
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/esm/Button'
@@ -11,18 +12,27 @@ import MessageBox from "../Components/MessageBox"
 import { Store } from "../Store"
 
 export default function CartScreen() {
-    const {state,dispatch}=useContext(Store)
+    const {state,dispatch:ctxDispatch}=useContext(Store)
     console.log({'cartScreen': state})
     const {cart:{ cartItems },
     }=state
     console.log(cartItems)
 
-    const UpdateCartHandler=(item,quantity)=>{
-        alert({'quantity': quantity})
+    const UpdateCartHandler=async(item,quantity)=>{
+        console.log({"UpdateCartHandler" : quantity, "Items":item})
+        const {data} = await axios.get(`/api/product/${item._id}`)
+
+        if(data.countInStock < quantity){
+            window.alert("Sorry, Not Enough in Stock");
+            return
+        }
+
+        ctxDispatch({
+            type: 'CART_ADD_ITEM',
+            payload : {...item,quantity}
+        })
+
     }
-    const UpdateCartHandler1 = (item, quantity) => {
-      alert("minus one ")
-    };
     return (
       <div>
         <Container>
@@ -62,15 +72,23 @@ export default function CartScreen() {
                           </Row>
                           <Row className="align-items-center">
                             <Col md={5}>
-                              <Button disabled={item.quantity === 1} onClick={UpdateCartHandler1(item,item.quantity-1)}>
+                              <Button
+                                disabled={item.quantity === 1}
+                                onClick={() =>
+                                  UpdateCartHandler(item, item.quantity - 1)
+                                }
+                              >
                                 <i className="fas fa-minus-circle"></i>
                               </Button>{' '}
-                              <span>{item.quantity}</span>{' '}
-                              <Button 
-                                disabled={item.quantity === item.countInStock} onClick={()=>{
-                                    UpdateCartHandler(item,item.quantity+1)
+                              <span className="cartItemQuantity">
+                                {item.quantity}
+                              </span>{' '}
+                              <Button
+                                disabled={item.quantity === item.countInStock}
+                                onClick={() => {
+                                  UpdateCartHandler(item, item.quantity + 1);
                                 }}
-                               >
+                              >
                                 <i className="fas fa-plus-circle"></i>
                               </Button>{' '}
                             </Col>
@@ -120,6 +138,8 @@ export default function CartScreen() {
                           0
                         )}
                       </h5>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
                       <Button variant="success">Proceed to checkout</Button>
                     </ListGroup.Item>
                   </ListGroup>
