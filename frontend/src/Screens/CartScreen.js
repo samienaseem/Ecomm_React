@@ -7,11 +7,12 @@ import Container from "react-bootstrap/esm/Container"
 import Row from "react-bootstrap/esm/Row"
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Helmet } from "react-helmet-async"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MessageBox from "../Components/MessageBox"
 import { Store } from "../Store"
 
 export default function CartScreen() {
+    const navigate=useNavigate()
     const {state,dispatch:ctxDispatch}=useContext(Store)
     console.log({'cartScreen': state})
     const {cart:{ cartItems },
@@ -19,7 +20,7 @@ export default function CartScreen() {
     console.log(cartItems)
 
     const UpdateCartHandler=async(item,quantity)=>{
-        console.log({"UpdateCartHandler" : quantity, "Items":item})
+        console.log({"UpdateCartHandler" : quantity, "Itemsquantity":{...item,quantity}})
         const {data} = await axios.get(`/api/product/${item._id}`)
 
         if(data.countInStock < quantity){
@@ -39,6 +40,10 @@ export default function CartScreen() {
             payload:item
         })
     }
+    const CheckoutCartHandler=()=>{
+      navigate('/signin?redirect=/shipping')
+
+    }
     return (
       <div>
         <Container>
@@ -56,60 +61,68 @@ export default function CartScreen() {
                 </MessageBox>
               ) : (
                 <ListGroup>
-                  {cartItems.map((item) => (
-                    <ListGroup.Item key={item._id}>
-                      <Row className="align-items-center">
-                        <Col md={4}>
-                          <img
-                            className="img-fluid rounded img-thumbnail"
-                            src={item.image}
-                            alt={item.name}
-                          />{' '}
-                          {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
-                        </Col>
-                        {/* -------MyVersion---------- */}
-                        <Col md={8}>
-                          <Row>
-                            <Col md={12} className="cartItemTitle">
-                              <Link to={`/product/${item.slug}`}>
-                                {item.name}
-                              </Link>
-                            </Col>
-                          </Row>
-                          <Row className="align-items-center">
-                            <Col md={5}>
-                              <Button variant="light"
-                                disabled={item.quantity === 1}
-                                onClick={() =>
-                                  UpdateCartHandler(item, item.quantity - 1)
-                                }
-                              >
-                                <i className="fas fa-minus-circle"></i>
-                              </Button>{' '}
-                              <span className="cartItemQuantity">
-                                {item.quantity}
-                              </span>{' '}
-                              <Button variant="light"
-                                disabled={item.quantity === item.countInStock}
-                                onClick={() => {
-                                  UpdateCartHandler(item, item.quantity + 1);
-                                }}
-                              >
-                                <i className="fas fa-plus-circle"></i>
-                              </Button>{' '}
-                            </Col>
-                            <Col md={5}>£{item.price}</Col>
-                            <Col md={2}>
-                              <Button variant="light" onClick={()=>{
-                                removeItemHandler(item)
-                              }}>
-                                <i className="fas fa-trash"></i>
-                              </Button>
-                            </Col>
-                          </Row>
-                        </Col>
-                        {/* ----------End---------- */}
-                        {/* <Col md={3}>
+                  {cartItems
+                    .slice() // Creates a shallow copy of the array to avoid mutating the original cartItems
+                    .reverse() // Reverse the copy of the array so new items appear on top
+                    .map((item) => (
+                      <ListGroup.Item key={item._id}>
+                        <Row className="align-items-center">
+                          <Col md={4}>
+                            <img
+                              className="img-fluid rounded img-thumbnail"
+                              src={item.image}
+                              alt={item.name}
+                            />{' '}
+                            {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
+                          </Col>
+                          {/* -------MyVersion---------- */}
+                          <Col md={8}>
+                            <Row>
+                              <Col md={12} className="cartItemTitle">
+                                <Link to={`/product/${item.slug}`}>
+                                  {item.name}
+                                </Link>
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center">
+                              <Col md={5}>
+                                <Button
+                                  variant="light"
+                                  disabled={item.quantity === 1}
+                                  onClick={() =>
+                                    UpdateCartHandler(item, item.quantity - 1)
+                                  }
+                                >
+                                  <i className="fas fa-minus-circle"></i>
+                                </Button>{' '}
+                                <span className="cartItemQuantity">
+                                  {item.quantity}
+                                </span>{' '}
+                                <Button
+                                  variant="light"
+                                  disabled={item.quantity === item.countInStock}
+                                  onClick={() => {
+                                    UpdateCartHandler(item, item.quantity + 1);
+                                  }}
+                                >
+                                  <i className="fas fa-plus-circle"></i>
+                                </Button>{' '}
+                              </Col>
+                              <Col md={5}>£{item.price}</Col>
+                              <Col md={2}>
+                                <Button
+                                  variant="light"
+                                  onClick={() => {
+                                    removeItemHandler(item);
+                                  }}
+                                >
+                                  <i className="fas fa-trash"></i>
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Col>
+                          {/* ----------End---------- */}
+                          {/* <Col md={3}>
                           <Button disabled={item.quantity === 1}>
                             <i className="fas fa-minus-circle"></i>
                           </Button>{' '}
@@ -126,9 +139,9 @@ export default function CartScreen() {
                             <i className="fas fa-trash"></i>
                           </Button>
                         </Col> */}
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
                 </ListGroup>
               )}
             </Col>
@@ -148,7 +161,16 @@ export default function CartScreen() {
                       </h5>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      <Button variant="success">Proceed to checkout</Button>
+                      <div className="d-grid">
+                        <Button
+                        onClick={CheckoutCartHandler}
+                          variant="primary"
+                          type="button"
+                          disabled={cartItems.length === 0}
+                        >
+                          Proceed to Checkout
+                        </Button>
+                      </div>
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Body>
