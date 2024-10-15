@@ -33,6 +33,12 @@ export default function CartScreen() {
         })
 
     }
+    const removeItemHandler=(item)=>{
+        ctxDispatch({
+            type: 'CART_REMOVE_ITEM',
+            payload:item
+        })
+    }
     return (
       <div>
         <Container>
@@ -72,7 +78,7 @@ export default function CartScreen() {
                           </Row>
                           <Row className="align-items-center">
                             <Col md={5}>
-                              <Button
+                              <Button variant="light"
                                 disabled={item.quantity === 1}
                                 onClick={() =>
                                   UpdateCartHandler(item, item.quantity - 1)
@@ -83,7 +89,7 @@ export default function CartScreen() {
                               <span className="cartItemQuantity">
                                 {item.quantity}
                               </span>{' '}
-                              <Button
+                              <Button variant="light"
                                 disabled={item.quantity === item.countInStock}
                                 onClick={() => {
                                   UpdateCartHandler(item, item.quantity + 1);
@@ -94,7 +100,9 @@ export default function CartScreen() {
                             </Col>
                             <Col md={5}>£{item.price}</Col>
                             <Col md={2}>
-                              <Button variant="light">
+                              <Button variant="light" onClick={()=>{
+                                removeItemHandler(item)
+                              }}>
                                 <i className="fas fa-trash"></i>
                               </Button>
                             </Col>
