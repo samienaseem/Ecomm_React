@@ -1,7 +1,7 @@
 const data = {
   Products: [
     {
-      _id: '1',
+      //_id: '1',
       name: 'Nike Slim Shirt',
       slug: 'nike-slim-shirt',
       category: 'Shirts',
@@ -14,7 +14,7 @@ const data = {
       description: 'high quality shirts',
     },
     {
-      _id: '2',
+      // _id: '2',
       name: 'Adidas Fit Shirt',
       slug: 'adidas-fit-shirt',
       category: 'Shirts',
@@ -27,7 +27,7 @@ const data = {
       description: 'high quality shirts',
     },
     {
-      _id: '3',
+      //_id: '3',
       name: 'Nike Slim Pant',
       slug: 'nike-slim-pant',
       category: 'Pants',
@@ -40,7 +40,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '4',
+      //_id: '4',
       name: 'Adidas Fit Pant',
       slug: 'adidas-fit-pant',
       category: 'Pants',
@@ -53,7 +53,7 @@ const data = {
       description: 'high quality products',
     },
     {
-      _id: '5',
+     // _id: '5',
       name: 'Adidas Fit Pant 1',
       slug: 'adidas-fit-pant 1',
       category: 'Pants',
@@ -66,7 +66,7 @@ const data = {
       description: 'high quality products',
     },
     {
-      _id: '6',
+      //_id: '6',
       name: 'Popcorn Tshirt',
       slug: '11ST_CLR_POPBLUE',
       category: 'Tshirts',
@@ -79,7 +79,7 @@ const data = {
       description: 'high quality products',
     },
     {
-      _id: '7',
+      //_id: '7',
       name: 'Pink Popcorn Tshirt',
       slug: '11ST_CLR_POPPINK',
       category: 'Tshirts',
@@ -92,7 +92,7 @@ const data = {
       description: 'high quality products',
     },
     {
-      _id: '8',
+      //_id: '8',
       name: 'Sky Popcorn Tshirt',
       slug: '11ST_CLR_POPSKY',
       category: 'Tshirts',
