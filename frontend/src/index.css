@@ -68,3 +68,8 @@ header a {
 .cartItemQuantity{
   margin: 0px 10px;
 }
+
+/* Sign In Screen */
+.small-container{
+  max-width: 150vh;
+}
