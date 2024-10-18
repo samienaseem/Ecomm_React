@@ -1,0 +1,62 @@
+import bcrypt from 'bcryptjs';
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import User from '../models/userModel.js';
+import { generateToken } from '../utils.js';
+
+const userRouter = express.Router();
+
+userRouter.post(
+  '/signin',
+  expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    // Check if both email and password are provided
+    if (!email || !password) {
+      return res
+        .status(400)
+        .send({ message: 'Email and password are required' });
+    }
+
+    // Find the user by email (await is needed)
+    const user = await User.findOne({ email });
+
+    // If user is found, check the password
+    if (user) {
+      if (bcrypt.compareSync(password, user.password)) {
+        // Password matches, send user details along with token
+        res.send({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          token: generateToken(user),
+        });
+        return;
+      } else {
+        // If password doesn't match, send 401 error
+        return res.status(401).send({ message: 'Password is incorrect' });
+      }
+    }
+
+    // If user is not found, send 401 error
+    res.status(401).send({ message: 'Incorrect Email or Password' });
+  })
+);
+
+export default userRouter;
+
+// if (!user) {
+//   return res.status(401).send({ message: 'User not found' });
+// }
+// const isMatch = bcrypt.compareSync(password, user.password);
+// if (!isMatch) {
+//   return res.status(401).send({ message: 'Invalid password' });
+// }
+// res.send({
+//   _id: user._id,
+//   name: user.name,
+//   email: user.email,
+//   isAdmin: user.isAdmin,
+//   token: generateToken(user),
+// });

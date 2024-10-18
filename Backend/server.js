@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import productRouter from './routes/productRoutes.js';
 import seedRouter from './routes/seedRoutes.js';
+import userRouter from './routes/userRoutes,js';
 
 dotenv.config();
 
@@ -15,6 +16,9 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
 
 
 const app=express();
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 app.use('/api/seed',seedRouter);
 
@@ -52,6 +56,13 @@ app.use('/api/product',productRouter);
 //     res.status(404).send({ message: 'Product not found' });
 //   }
 // });
+
+app.use((err,req,res,next)=>{
+  res.status(500).send({message:err.message});
+})
+
+//UserRoutes
+app.use('/api/users', userRouter);
 
 
 const port=process.env.PORT || 4000

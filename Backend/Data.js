@@ -1,4 +1,19 @@
+import bcrypt from 'bcryptjs';
 const data = {
+  Users: [
+    {
+      name: 'Samie',
+      email: 'admin@atelier.com',
+      password: bcrypt.hashSync('samar@1213134'),
+      isAdmin: true,
+    },
+    {
+      name: 'Saquib',
+      email: 'user@atelier.com',
+      password: bcrypt.hashSync('samar@1213134'),
+      isAdmin: false,
+    },
+  ],
   Products: [
     {
       //_id: '1',
@@ -53,7 +68,7 @@ const data = {
       description: 'high quality products',
     },
     {
-     // _id: '5',
+      // _id: '5',
       name: 'Adidas Fit Pant 1',
       slug: 'adidas-fit-pant 1',
       category: 'Pants',
