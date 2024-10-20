@@ -4,13 +4,14 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import Container from "react-bootstrap/esm/Container";
 import { Helmet } from "react-helmet-async";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 
 export default function SignInScreen(){
     const [email, setEmail]=useState(" ");
     const [password, setPassword]=useState(" ");
     const location=useLocation()
+    const navigate=useNavigate();
     // const redirect = new URLSearchParams(location.search).get('redirect') || '/';
     const redirectUrl=new URLSearchParams(location.search).get('redirect');
     const redirect = redirectUrl? redirectUrl : '/'
@@ -30,6 +31,7 @@ const onSubmitHandler=async(e)=>{
             payload: data
         })
         localStorage.setItem('userInfo',JSON.stringify(data));
+        navigate(redirect || '/')
     }
     catch(err){
         console.log(err.message)
