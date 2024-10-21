@@ -3,10 +3,11 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import CartScreen from './Screens/CartScreen';
 import HomeScreen from './Screens/HomeScreen';
@@ -29,6 +30,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
+        <ToastContainer position='bottom-center' limit={1}/>
         <header>
           <Navbar bg="dark" variant="dark">
             <Container fluid>

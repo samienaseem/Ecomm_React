@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Container from "react-bootstrap/esm/Container";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Store } from '../Store';
 
 export default function SignInScreen(){
@@ -36,7 +37,8 @@ const onSubmitHandler=async(e)=>{
     }
     catch(err){
         console.log(err.message)
-        alert("Incorrect Username or Password")
+        //alert("Incorrect Username or Password")
+        toast.error('Invalid Email or Password')
     }
     
     console.log(e)
