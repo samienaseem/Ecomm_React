@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -14,8 +15,16 @@ import SignInScreen from './Screens/SignInScreen';
 import { Store } from './Store';
 
 function App() {
-  const {state} = useContext(Store)
-  const {cart}= state;
+  const {state,dispatch:ctxDispatch} = useContext(Store)
+  const {cart,userInfo}= state;
+
+  const SignoutHandler=()=>{
+    //alert("signout succesfull")
+    ctxDispatch({
+      type: 'USER_SIGNOUT'
+    })
+    localStorage.removeItem('userInfo')
+  }
 
   return (
     <BrowserRouter>
@@ -35,6 +44,24 @@ function App() {
                     </Badge>
                   )}
                 </Link>
+                {userInfo ? (
+                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orderhistory">
+                      <NavDropdown.Item>Order History</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Divider />
+                    <Link to='#signout' className='dropdown-item' onClick={SignoutHandler} >
+                    Sign Out
+                    </Link>
+                  </NavDropdown>
+                ) : (
+                  <Link className="nav-link" to="/signin">
+                    Sign In
+                  </Link>
+                )}
               </Nav>
             </Container>
           </Navbar>

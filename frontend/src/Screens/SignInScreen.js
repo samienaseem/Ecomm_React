@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import Container from "react-bootstrap/esm/Container";
@@ -17,6 +17,7 @@ export default function SignInScreen(){
     const redirect = redirectUrl? redirectUrl : '/'
 
     const {state,dispatch:ctxDispatch}=useContext(Store);
+    const {userInfo}=state;
 
 const onSubmitHandler=async(e)=>{
     e.preventDefault();
@@ -35,11 +36,18 @@ const onSubmitHandler=async(e)=>{
     }
     catch(err){
         console.log(err.message)
+        alert("Incorrect Username or Password")
     }
     
     console.log(e)
 }
     console.log({ SigninScreen: state });
+
+    useEffect(()=>{
+        if(userInfo){
+            navigate(redirect)
+        }
+    },[navigate,redirect,userInfo]);
 
     return (
       <Container className="small-container">
