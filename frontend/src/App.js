@@ -12,6 +12,7 @@ import './App.css';
 import CartScreen from './Screens/CartScreen';
 import HomeScreen from './Screens/HomeScreen';
 import ProductScreen from './Screens/ProductScreen';
+import ShippingAddressScreen from './Screens/ShippingAddressScreen';
 import SignInScreen from './Screens/SignInScreen';
 import { Store } from './Store';
 
@@ -25,6 +26,7 @@ function App() {
       type: 'USER_SIGNOUT'
     })
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('shippingAddress')
   }
 
   return (
@@ -75,6 +77,7 @@ function App() {
             <Routes>
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SignInScreen />} />
+              <Route path='/shipping' element={<ShippingAddressScreen />}/>
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>

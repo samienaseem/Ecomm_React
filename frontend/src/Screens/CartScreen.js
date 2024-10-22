@@ -17,7 +17,7 @@ export default function CartScreen() {
     console.log({'cartScreen': state})
     const {cart:{ cartItems },
     }=state
-    console.log(cartItems)
+    console.log({'cartItems':cartItems})
 
     const UpdateCartHandler=async(item,quantity)=>{
         console.log({"UpdateCartHandler" : quantity, "Itemsquantity":{...item,quantity}})
