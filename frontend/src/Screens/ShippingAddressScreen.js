@@ -58,6 +58,9 @@ export default function ShippingAddressScreen() {
       <Helmet>
         <title>Shipping Address</title>
       </Helmet>
+      {/* shorthand property to send props */}
+      {/* the longer version would be:
+      <CheckoutSteps step1={true} step2={true}></CheckoutSteps> */}
       <CheckoutSteps step1 step2></CheckoutSteps>
       <Container className="small-container">
         <div>
@@ -112,8 +115,10 @@ export default function ShippingAddressScreen() {
                 onChange={(e) => setCountry(e.target.value)}
               />
             </Form.Group>
-            <div className='my-3'>
-                <Button variant='primary' type='submit'>Continue</Button>
+            <div className="my-3">
+              <Button variant="primary" type="submit">
+                Continue
+              </Button>
             </div>
           </Form>
         </div>
