@@ -51,7 +51,8 @@ function reducer(state,action){
                 userInfo: null,
                 cart:{
                     cartItems:[],
-                    shippingAddress:{}
+                    shippingAddress:{},
+                    paymentMethod: ''
                 }
             }
         }
@@ -61,6 +62,15 @@ function reducer(state,action){
                 cart:{
                     ...state.cart,
                     shippingAddress: action.payload
+                }
+            }
+        }
+        case "SAVE_PAYMENT_METHOD": {
+            return{
+                ...state,
+                cart:{
+                    ...state.cart,
+                    paymentMethod: action.payload
                 }
             }
         }
@@ -76,7 +86,10 @@ const initialState={
         JSON.parse(localStorage.getItem('shippingAddress')):{},
 
         cartItems:localStorage.getItem('cartItems')?
-        JSON.parse(localStorage.getItem('cartItems')):[]
+        JSON.parse(localStorage.getItem('cartItems')):[],
+
+        paymentMethod: localStorage.getItem('paymentMethod')?
+        localStorage.getItem('paymentMethod'): '',
     }
 }
 

@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import CartScreen from './Screens/CartScreen';
 import HomeScreen from './Screens/HomeScreen';
+import PaymentMethodScreen from './Screens/PaymentMethodScreen';
 import ProductScreen from './Screens/ProductScreen';
 import ShippingAddressScreen from './Screens/ShippingAddressScreen';
 import SignInScreen from './Screens/SignInScreen';
@@ -27,13 +28,15 @@ function App() {
       type: 'USER_SIGNOUT'
     })
     localStorage.removeItem('userInfo')
-    localStorage.removeItem('shippingAddress')
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
   }
+  console.log({"App":state})
 
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
-        <ToastContainer position='bottom-center' limit={1}/>
+        <ToastContainer position="bottom-center" limit={1} />
         <header>
           <Navbar bg="dark" variant="dark">
             <Container fluid>
@@ -58,8 +61,12 @@ function App() {
                       <NavDropdown.Item>Order History</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Divider />
-                    <Link to='#signout' className='dropdown-item' onClick={SignoutHandler} >
-                    Sign Out
+                    <Link
+                      to="#signout"
+                      className="dropdown-item"
+                      onClick={SignoutHandler}
+                    >
+                      Sign Out
                     </Link>
                   </NavDropdown>
                 ) : (
@@ -78,8 +85,9 @@ function App() {
             <Routes>
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SignInScreen />} />
-              <Route path='/signup' element={<SignUpScreen/>}/>
-              <Route path='/shipping' element={<ShippingAddressScreen />}/>
+              <Route path="/signup" element={<SignUpScreen />} />
+              <Route path="/shipping" element={<ShippingAddressScreen />} />
+              <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>

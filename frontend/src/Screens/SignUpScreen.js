@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet-async';
@@ -24,6 +24,13 @@ export default function SignUpScreen() {
 
     // getting the state and dispatch from context
     const {state,dispatch:ctxDispatch}=useContext(Store);
+    const {userInfo}=state
+
+    useEffect(()=>{
+        if(userInfo){
+            navigate(redirect)
+        }
+    },[navigate,redirect,userInfo])
 
     const onSubmitHandler=async(e)=>{
         e.preventDefault();
