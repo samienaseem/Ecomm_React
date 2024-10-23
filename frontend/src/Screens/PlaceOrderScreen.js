@@ -27,6 +27,10 @@ export default function PlaceOrderScreen() {
         }
     },[cart,navigate])
 
+    const placeOrderHandler=()=>{
+        alert("Place Order")
+    }
+
   return (
     <div>
       <Helmet>
@@ -116,7 +120,7 @@ export default function PlaceOrderScreen() {
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Row>
-                      <Col>Items:</Col>
+                      <Col>Items: </Col>
                       <Col>{cart.itemsPrice.toFixed(2)}</Col>
                     </Row>
                   </ListGroup.Item>
@@ -151,6 +155,7 @@ export default function PlaceOrderScreen() {
                       <Button
                         type="button"
                         disabled={cart.cartItems.length === 0}
+                        onClick={placeOrderHandler}
                       >
                         Place Order
                       </Button>
