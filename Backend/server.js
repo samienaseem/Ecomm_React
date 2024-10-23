@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import orderRouter from './routes/orderRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import seedRouter from './routes/seedRoutes.js';
 import userRouter from './routes/userRoutes,js';
@@ -63,6 +64,9 @@ app.use((err,req,res,next)=>{
 
 //UserRoutes
 app.use('/api/users', userRouter);
+
+// orderRoutes
+app.use('/api/orders',orderRouter);
 
 
 const port=process.env.PORT || 4000
