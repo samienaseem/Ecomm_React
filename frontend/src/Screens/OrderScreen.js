@@ -5,9 +5,10 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
+import ProductTemplate from '../Components/ProductTemplate';
 import { Store } from '../Store';
 
 
@@ -93,12 +94,12 @@ export default function OrderScreen() {
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <div>
-            <h1>Order {orderId}</h1>
+            <h1 className='my-3'>Order {orderId}</h1>
             <Row>
               <Col md={8}>
                 <Card className="mb-3">
                   <Card.Body>
-                    <Card.Title>Shipping Address</Card.Title>
+                    <Card.Title>Shipping</Card.Title>
                     <Card.Text>
                       <strong>Name: </strong>
                       {order.shippingAddress.fullName}
@@ -109,7 +110,13 @@ export default function OrderScreen() {
                       {order.shippingAddress.postalCode},{' '}
                       {order.shippingAddress.country}
                     </Card.Text>
-                    <Link to="/shipping">Edit</Link>
+                    {order.isDelivered ? (
+                      <MessageBox variant="success">
+                        Delivered at {order.deliveredAt}
+                      </MessageBox>
+                    ) : (
+                      <MessageBox variant="danger">Not Delivered</MessageBox>
+                    )}
                   </Card.Body>
                 </Card>
 
@@ -119,11 +126,17 @@ export default function OrderScreen() {
                     <Card.Text>
                       <strong>Method: </strong> {order.paymentMethod}
                     </Card.Text>
-                    <Link to="/payment">Edit</Link>
+                    {order.isDelivered ? (
+                      <MessageBox variant="success">
+                        Paid at {order.paidAt}
+                      </MessageBox>
+                    ) : (
+                      <MessageBox variant="danger">Not Paid</MessageBox>
+                    )}
                   </Card.Body>
                 </Card>
 
-                <Card className="mb-3">
+                <Card className="mb-3" variant='flush'>
                   <Card.Body>
                     <Card.Title>Items</Card.Title>
                     <ListGroup variant="flush">
@@ -131,41 +144,41 @@ export default function OrderScreen() {
                         .slice() // Creates a shallow copy of the array to avoid mutating the original cartItems
                         .reverse() // Reverse the copy of the array so new items appear on top
                         .map((item) => (
-                          <ListGroup.Item key={item._id}>
-                            <Row className="align-items-center">
-                              <Col md={4}>
-                                <img
-                                  className="img-fluid rounded img-thumbnail"
-                                  src={item.image}
-                                  alt={item.name}
-                                />{' '}
-                                {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
-                              </Col>
-                              {/* -------MyVersion---------- */}
-                              <Col md={8}>
-                                <Row>
-                                  <Col md={12} className="cartItemTitle">
-                                    <Link to={`/product/${item.slug}`}>
-                                      {item.name}
-                                    </Link>
-                                  </Col>
-                                </Row>
-                                <Row className="align-items-center">
-                                  <Col md={6}>
-                                    <span className="cartItemQuantity">
-                                      QTY: {item.quantity}
-                                    </span>{' '}
-                                  </Col>
-                                  <Col md={6}>
-                                    <span>£{item.price}</span>
-                                  </Col>
-                                </Row>
-                              </Col>
-                            </Row>
-                          </ListGroup.Item>
+                        //   <ListGroup.Item key={item._id}>
+                        //     <Row className="align-items-center">
+                        //       <Col md={3}>
+                        //         <img
+                        //           className="img-fluid rounded img-thumbnail"
+                        //           src={item.image}
+                        //           alt={item.name}
+                        //         />{' '}
+                        //         {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
+                        //       </Col>
+                        //       {/* -------MyVersion---------- */}
+                        //       <Col md={9}>
+                        //         <Row>
+                        //           <Col md={12} className="cartItemTitle">
+                        //             <Link to={`/product/${item.slug}`}>
+                        //               {item.name}
+                        //             </Link>
+                        //           </Col>
+                        //         </Row>
+                        //         <Row className="align-items-center">
+                        //           <Col md={6}>
+                        //             <span className="cartItemQuantity">
+                        //               QTY: {item.quantity}
+                        //             </span>{' '}
+                        //           </Col>
+                        //           <Col md={6}>
+                        //             <span>£{item.price}</span>
+                        //           </Col>
+                        //         </Row>
+                        //       </Col>
+                        //     </Row>
+                        //   </ListGroup.Item>
+                        <ProductTemplate item={item}></ProductTemplate>
                         ))}
                     </ListGroup>
-                    <Link to="/cart">Edit</Link>
                   </Card.Body>
                 </Card>
               </Col>
@@ -184,7 +197,7 @@ export default function OrderScreen() {
                       <ListGroup.Item>
                         <Row>
                           <Col>Shipping:</Col>
-                          <Col>{order.shippingPrice}</Col>
+                          <Col>£{order.shippingPrice}</Col>
                         </Row>
                       </ListGroup.Item>
 

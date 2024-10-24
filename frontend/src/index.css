@@ -61,6 +61,12 @@ header a {
 .ProductScreen .img-large {
   max-width: 100%;
 }
+
+/* productComponent for cart */
+.rounded{
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
 /* cartScreen Css */
 .cartItemTitle{
   margin-bottom: 10px;
@@ -82,4 +88,15 @@ header a {
 .checkout-steps > div.active{
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
+}
+
+/* productTemplate Component */
+.noLinkDecoration{
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+.flex-column{
+  justify-content: space-around;
 }
