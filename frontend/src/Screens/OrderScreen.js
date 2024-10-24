@@ -177,7 +177,7 @@ export default function OrderScreen() {
                       <ListGroup.Item>
                         <Row>
                           <Col>Items: </Col>
-                          <Col>{order.itemsPrice}</Col>
+                          <Col>£{order.itemPrice}</Col>
                         </Row>
                       </ListGroup.Item>
 
