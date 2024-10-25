@@ -11,7 +11,7 @@ export default function ProductTemplate({item}) {
     <div>
       <ListGroup.Item key={item._id} className='my-3'>
         <Row className="RowItem align-items-stretch my-3">
-          <Col md={3}>
+          <Col lg={3} md={4} sm={5}>
             <img
               className="img-fluid h-100 rounded img-thumbnail"
               src={item.image}
@@ -20,15 +20,15 @@ export default function ProductTemplate({item}) {
             {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
           </Col>
           {/* -------MyVersion---------- */}
-          <Col md={9} className='d-flex flex-column'>
+          <Col lg={9} md={8} sm={7} className='d-flex flex-column'>
             <Row className='my-3'>
               <Col md={12} className="cartItemTitle">
                 <Link to={`/product/${item.slug}`} className='noLinkDecoration'>{item.name}</Link>
               </Col>
             </Row>
             <Row className="align-items-center my-3">
-              <Col md={12}>
-                <span className="cartItemQuantity my-3">QTY: {item.quantity}</span>
+              <Col md={12} className='mb-3'>
+                <span>QTY: {item.quantity}</span>
               </Col>
               <Col md={12}>
                 <span>£{item.price}</span>
