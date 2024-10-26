@@ -6,11 +6,10 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
-import ProductTemplate from '../Components/ProductTemplate';
 import { Store } from '../Store';
 
 
@@ -42,7 +41,7 @@ const reducer=(state,action)=>{
         return { ...state, loadingPay: true };
       }
       case 'PAY_SUCCESS': {
-        return { ...state, loadingPay: false, successPay: true };
+        return { ...state, loadingPay: false, successPay: true, order: action.payload };
       }
       case 'PAY_FAIL': {
         return { ...state, loadingPay: false };
@@ -94,7 +93,7 @@ export default function OrderScreen() {
         return actions.order.capture().then(async function(details) {
             try{
                 dispatch({type: "PAY_REQUEST"});
-                const {data}=await axios.put(`/api/orders/${order._id}/pay`,details, {
+                const {data}=await axios.put(`/api/orders/${order._id}/pay`, details, {
                     headers:{
                         authorization: `Bearer ${userInfo.token}`
                     }
@@ -144,7 +143,7 @@ export default function OrderScreen() {
             const loadPaypalScript = async()=>{
                 const {data : client_id} = await axios.get('/api/keys/paypal',{
                     headers:{
-                        authorization: `Bearer ${userInfo.token}`
+                        authorization:`Bearer ${userInfo.token}`,
                     }
                 });     
                 paypalDispatch({
@@ -158,7 +157,7 @@ export default function OrderScreen() {
             }
             loadPaypalScript()
         }
-    },[navigate, userInfo,orderId,order,paypalDispatch,successPay])
+    },[navigate, userInfo,orderId, order, paypalDispatch, successPay])
   return (
     <div>
       <Helmet>
@@ -203,7 +202,7 @@ export default function OrderScreen() {
                     <Card.Text>
                       <strong>Method: </strong> {order.paymentMethod}
                     </Card.Text>
-                    {order.isDelivered ? (
+                    {order.isPaid ? (
                       <MessageBox variant="success">
                         Paid at {order.paidAt}
                       </MessageBox>
@@ -221,39 +220,39 @@ export default function OrderScreen() {
                         .slice() // Creates a shallow copy of the array to avoid mutating the original cartItems
                         .reverse() // Reverse the copy of the array so new items appear on top
                         .map((item) => (
-                        //   <ListGroup.Item key={item._id}>
-                        //     <Row className="align-items-center">
-                        //       <Col md={3}>
-                        //         <img
-                        //           className="img-fluid rounded img-thumbnail"
-                        //           src={item.image}
-                        //           alt={item.name}
-                        //         />{' '}
-                        //         {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
-                        //       </Col>
-                        //       {/* -------MyVersion---------- */}
-                        //       <Col md={9}>
-                        //         <Row>
-                        //           <Col md={12} className="cartItemTitle">
-                        //             <Link to={`/product/${item.slug}`}>
-                        //               {item.name}
-                        //             </Link>
-                        //           </Col>
-                        //         </Row>
-                        //         <Row className="align-items-center">
-                        //           <Col md={6}>
-                        //             <span className="cartItemQuantity">
-                        //               QTY: {item.quantity}
-                        //             </span>{' '}
-                        //           </Col>
-                        //           <Col md={6}>
-                        //             <span>£{item.price}</span>
-                        //           </Col>
-                        //         </Row>
-                        //       </Col>
-                        //     </Row>
-                        //   </ListGroup.Item>
-                        <ProductTemplate item={item}></ProductTemplate>
+                          <ListGroup.Item key={item._id}>
+                            <Row className="align-items-center">
+                              <Col md={3}>
+                                <img
+                                  className="img-fluid rounded img-thumbnail"
+                                  src={item.image}
+                                  alt={item.name}
+                                />{' '}
+                                {/* <Link to={`/product/${item.slug}`}>{item.name}</Link> */}
+                              </Col>
+                              {/* -------MyVersion---------- */}
+                              <Col md={9}>
+                                <Row>
+                                  <Col md={12} className="cartItemTitle">
+                                    <Link to={`/product/${item.slug}`}>
+                                      {item.name}
+                                    </Link>
+                                  </Col>
+                                </Row>
+                                <Row className="align-items-center">
+                                  <Col md={6}>
+                                    <span className="cartItemQuantity">
+                                      QTY: {item.quantity}
+                                    </span>{' '}
+                                  </Col>
+                                  <Col md={6}>
+                                    <span>£{item.price}</span>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+                          </ListGroup.Item>
+                        //<ProductTemplate item={item}></ProductTemplate>
                         ))}
                     </ListGroup>
                   </Card.Body>

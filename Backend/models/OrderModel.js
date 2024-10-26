@@ -27,7 +27,7 @@ const OrderSchema = new mongoose.Schema(
     paymentMethod: { type: String, requied: true },
     paymentResult: {
       id: String,
-      type: String,
+      status: String,
       update_time: String,
       email_address: String,
     },
