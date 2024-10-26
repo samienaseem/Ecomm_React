@@ -8,7 +8,7 @@ export default function ProfileScreen() {
             <title>Profile</title>
         </Helmet>
         <div className='container'>
-            <h1>Profile</h1>
+            <h1 className='my-3'>Profile</h1>
         </div>
       
     </div>
