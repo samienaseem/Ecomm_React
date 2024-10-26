@@ -15,6 +15,7 @@ import OrderScreen from './Screens/OrderScreen';
 import PaymentMethodScreen from './Screens/PaymentMethodScreen';
 import PlaceOrderScreen from './Screens/PlaceOrderScreen';
 import ProductScreen from './Screens/ProductScreen';
+import ProfileScreen from './Screens/ProfileScreen';
 import ShippingAddressScreen from './Screens/ShippingAddressScreen';
 import SignInScreen from './Screens/SignInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
@@ -90,6 +91,7 @@ function App() {
               <Route path="/signup" element={<SignUpScreen />} />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
+              <Route path='/profile' element={<ProfileScreen />}/>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
