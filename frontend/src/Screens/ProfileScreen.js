@@ -5,10 +5,10 @@ export default function ProfileScreen() {
   return (
     <div>
         <Helmet>
-            <title>Profile</title>
+            <title>User Profile</title>
         </Helmet>
         <div className='container'>
-            <h1 className='my-3'>Profile</h1>
+            <h1 className='my-3'> User Profile</h1>
         </div>
       
     </div>
