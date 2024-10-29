@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/esm/Button';
@@ -7,9 +8,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import SearchBox from './Components/SearchBox';
 import CartScreen from './Screens/CartScreen';
 import HomeScreen from './Screens/HomeScreen';
 import OrderHistoryScreen from './Screens/OrderHistoryScreen';
@@ -27,7 +29,9 @@ function App() {
   const {state,dispatch:ctxDispatch} = useContext(Store)
   const {cart,userInfo}= state;
 
+
   const [sideBarIsOpen, setSideBarOpen]=useState(false);
+  const [categories, setCategories]=useState([]);
 
   const SignoutHandler=()=>{
     //alert("signout succesfull")
@@ -37,9 +41,25 @@ function App() {
     localStorage.removeItem('userInfo')
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    window.location.href='/signin'
   }
   console.log({"App":state})
   console.log(sideBarIsOpen)
+
+  useEffect(()=>{
+    const fetchCategories=async()=>{
+      try {
+        const {data}=await axios.get('/api/product/categories');
+        setCategories(data);
+
+      } catch (err) {
+        toast.error(err.message);
+      }
+
+    }
+    fetchCategories();
+    
+  },[])
 
   return (
     <BrowserRouter>
@@ -67,6 +87,8 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>11th Street Atelier</Navbar.Brand>
               </LinkContainer>
+
+              <SearchBox/>
 
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -112,9 +134,25 @@ function App() {
           className={
             sideBarIsOpen
               ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
-              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+              : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
-        ></div>
+        >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item className='category-header'>
+              <strong>Categories</strong>
+            </Nav.Item>
+            {categories.map((category) => (
+              <Nav.Item key={category}>
+                <LinkContainer
+                  to={{ pathname: '/search', search: `category=${category}` }}
+                  onClick={() => setSideBarOpen(false)}
+                >
+                  <Nav.Link>{category}</Nav.Link>
+                </LinkContainer>
+              </Nav.Item>
+            ))}
+          </Nav>
+        </div>
 
         <main>
           <Container fluid>

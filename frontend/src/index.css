@@ -16,10 +16,17 @@ main{
 .site-container{
   flex: 1;
   min-height: 100vh;
+  position: relative;
 }
 div{
   border: 0.3px solid red;
   transition: 0.5s ease-out;
+}
+
+.btn-primary,
+.btn-outline-primary {
+  background-color: #f0c040;
+  color: #000000;
 }
 
 /* header{
@@ -107,11 +114,24 @@ header a {
 }
 .side-navbar{
   background-color: #100901;
+  
   width: 240px;
   height: 100%;
   position: absolute;
-  left: -300px;
+  left: -240px;
+  
+}
+.category-header{
+  padding: .5rem 1rem;
 }
 .active-nav{
-  left: 0;
+  left: -1;
+}
+.sidebar-button{
+  margin: 0px 10px;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-family: cursive;
+  letter-spacing: 2px;
 }
