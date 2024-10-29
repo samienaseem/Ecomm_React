@@ -100,3 +100,18 @@ header a {
 .flex-column{
   justify-content: space-around;
 }
+
+/* sidebar css  */
+.active-cont{
+  margin-left: 240px;
+}
+.side-navbar{
+  background-color: #100901;
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -300px;
+}
+.active-nav{
+  left: 0;
+}

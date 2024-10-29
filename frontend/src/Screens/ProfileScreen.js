@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
+import LoadingBox from '../Components/LoadingBox';
 import { Store } from '../Store';
 
 const reducer = (state,action)=>{
@@ -42,7 +43,7 @@ export default function ProfileScreen() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [{loadingUpdate},dispatch]=useReducer(reducer,{
+    const [{loadingUpdate},dispatch ]=useReducer(reducer,{
         loadingUpdate:false
     });
 
@@ -61,6 +62,8 @@ const onSubmitHandler=async(e)=>{
         })
         dispatch({type: "UPDATE_SUCCESS"});
         console.log({"ProfileScreen":data})
+        ctxDispatch({type: "USER_SIGNIN", payload: data})
+        localStorage.setItem('userInfo',JSON.stringify(data));
 
     }catch(err){
         dispatch({type: "UPDATE_FAIL"})
@@ -118,7 +121,9 @@ const onSubmitHandler=async(e)=>{
 
         <div className="my-3">
           <Button type="submit" variant="primary">
-            Update
+            {loadingUpdate ? (<LoadingBox/>) :(
+            "Update") 
+            }
           </Button>
         </div>
 

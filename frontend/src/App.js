@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/esm/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -26,6 +27,8 @@ function App() {
   const {state,dispatch:ctxDispatch} = useContext(Store)
   const {cart,userInfo}= state;
 
+  const [sideBarIsOpen, setSideBarOpen]=useState(false);
+
   const SignoutHandler=()=>{
     //alert("signout succesfull")
     ctxDispatch({
@@ -36,17 +39,35 @@ function App() {
     localStorage.removeItem('paymentMethod');
   }
   console.log({"App":state})
+  console.log(sideBarIsOpen)
 
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column site-container">
+      <div
+        className={
+          sideBarIsOpen
+            ? 'd-flex flex-column site-container active-cont'
+            : 'd-flex flex-column site-container'
+        }
+      >
         <ToastContainer position="bottom-center" limit={1} />
         <header>
           <Navbar bg="dark" variant="dark" expand="lg">
-            <Container>
+            <Container fluid>
+              <Button
+                className="sidebar-button"
+                variant="dark"
+                onClick={() => {
+                  setSideBarOpen(!sideBarIsOpen);
+                }}
+              >
+                <i className="fas fa-bars"></i>
+              </Button>
+
               <LinkContainer to="/">
                 <Navbar.Brand>11th Street Atelier</Navbar.Brand>
               </LinkContainer>
+
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto w-100 justify-content-end">
@@ -86,6 +107,14 @@ function App() {
           </Navbar>
           {/* <a href="/">11th Street Atelier</a> */}
         </header>
+
+        <div
+          className={
+            sideBarIsOpen
+              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+          }
+        ></div>
 
         <main>
           <Container fluid>
