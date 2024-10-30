@@ -1,14 +1,24 @@
 import axios from 'axios';
 import React, { useEffect, useReducer, useState } from 'react';
-import Col from 'react-bootstrap/esm/Col';
-import Row from 'react-bootstrap/esm/Row';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import LoadingBox from '../Components/LoadingBox';
+import MessageBox from '../Components/MessageBox';
 import Rating from '../Components/Rating';
 
 const reducer =(state, action)=>{
     switch(action.type){
+        case "FETCH_REQUEST":{
+            return {...state, loading: false}
+        }
+        case "FETCH_FAIL":{
+            return {...state, loading:false, error:action.payload};
+        }
         default:{
             return state;
         }
@@ -16,6 +26,7 @@ const reducer =(state, action)=>{
 }
 
 export default function SearchScreen() {
+    const navigate=useNavigate()
     const {search}=useLocation();
     const sp=new URLSearchParams(search); // /search/?cateegory=Shirt
 
@@ -68,7 +79,8 @@ export default function SearchScreen() {
 
     const [{error,loading, pages, products, countProducts},dispatch]=useReducer(reducer,{
         loading:true,
-        error:''
+        error:'',
+        countProducts: 0
     })
 
     useEffect(()=>{
@@ -173,7 +185,9 @@ export default function SearchScreen() {
               {ratings.map((ratingList) => (
                 <li key={ratingList.name}>
                   <Link
-                    className={`${rating}`===`${ratingList.value}` ? 'text-bold' : ''}
+                    className={
+                      `${rating}` === `${ratingList.value}` ? 'text-bold' : ''
+                    }
                     to={getFilterUrl({
                       rating: ratingList.value,
                     })}
@@ -186,14 +200,59 @@ export default function SearchScreen() {
                 </li>
               ))}
               <li>
-                <Link className={rating==='all'? 'text-bold': ''} to={getFilterUrl({rating: 'all'})}>
-                    <Rating caption={' & up'} rating={0}></Rating>
+                <Link
+                  className={rating === 'all' ? 'text-bold' : ''}
+                  to={getFilterUrl({ rating: 'all' })}
+                >
+                  <Rating caption={' & up'} rating={0}></Rating>
                 </Link>
               </li>
             </ul>
           </div>
         </Col>
-        <Col md={10}></Col>
+        <Col md={10}>
+          {loading ? (
+            <LoadingBox></LoadingBox>
+          ) : error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
+          ) : (
+            <>
+              <Row className="justify-content-between my-3">
+                <Col>
+                  <div>
+                    {countProducts === 0 ? 'No' : countProducts} Results
+                    {query !== 'all' && ' : ' + query}
+                    {category !== 'all' && ' : ' + category}
+                    {price !== 'all' && ' : Price ' + price}
+                    {rating !== 'all' && ' : Rating ' + rating + ' & up'}
+                    {query !== 'all' ||
+                    category !== 'all' ||
+                    rating !== 'all' ||
+                    price !== 'all' ? (
+                      <Button
+                        variant="light"
+                        onClick={() => navigate('/search')}
+                      >
+                        <i className="fas fa-times-circle"></i>
+                      </Button>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col className="text-end">
+                  <div>
+                    Sort By :{' '}
+                    <select value={order} onChange={(e)=>{navigate(getFilterUrl({order : e.target.value}))}}>
+                      <option value="newest">Newest Arrival</option>
+                      <option value="highest">Price: Low to High</option>
+                      <option value="lowest">Price: High to Low</option>
+                      <option value="toprated">Customer Reviews</option>
+                    </select>
+                  </div>
+                </Col>
+              </Row>
+            </>
+          )}
+        </Col>
       </Row>
     </div>
   );
