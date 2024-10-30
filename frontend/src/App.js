@@ -20,6 +20,7 @@ import PaymentMethodScreen from './Screens/PaymentMethodScreen';
 import PlaceOrderScreen from './Screens/PlaceOrderScreen';
 import ProductScreen from './Screens/ProductScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import SearchScreen from './Screens/SearchScreen';
 import ShippingAddressScreen from './Screens/ShippingAddressScreen';
 import SignInScreen from './Screens/SignInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
@@ -88,7 +89,7 @@ function App() {
                 <Navbar.Brand>11th Street Atelier</Navbar.Brand>
               </LinkContainer>
 
-              <SearchBox/>
+              <SearchBox />
 
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -138,7 +139,7 @@ function App() {
           }
         >
           <Nav className="flex-column text-white w-100 p-2">
-            <Nav.Item className='category-header'>
+            <Nav.Item className="category-header">
               <strong>Categories</strong>
             </Nav.Item>
             {categories.map((category) => (
@@ -163,6 +164,7 @@ function App() {
               <Route path="/shipping" element={<ShippingAddressScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/search" element={<SearchScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />

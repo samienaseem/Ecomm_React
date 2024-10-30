@@ -135,3 +135,6 @@ header a {
   font-family: cursive;
   letter-spacing: 2px;
 }
+.text-bold {
+  font-weight: bold;
+}
