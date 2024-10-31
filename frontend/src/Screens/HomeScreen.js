@@ -51,16 +51,23 @@ function HomeScreen(){
         </Helmet>
         <h1>Featured products</h1>
         <div className="products">
-          { loading ? (
+          {loading ? (
             <Loading />
-            // <h3>Loading...</h3>
-          ) : error ? (
+          ) : // <h3>Loading...</h3>
+          error ? (
             <MessageBox variant="danger">{error}</MessageBox>
-            // <h3>{error}</h3>
           ) : (
+            // <h3>{error}</h3>
             <Row>
               {products.map((product) => (
-                <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                <Col
+                  key={product._id}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  
+                  className="mb-3"
+                >
                   <Product product={product}></Product>
                 </Col>
               ))}

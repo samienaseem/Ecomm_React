@@ -157,7 +157,7 @@ export default function SearchScreen() {
         <title>Search Products</title>
       </Helmet>
       <Row>
-        <Col md={2}>
+        <Col sm={4} md={3} lg={2}>
           <h4>Departments</h4>
           <div>
             <ul>
@@ -237,7 +237,7 @@ export default function SearchScreen() {
             </ul>
           </div>
         </Col>
-        <Col md={10}>
+        <Col sm={8} md={9} lg={10}>
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : error ? (
@@ -252,7 +252,6 @@ export default function SearchScreen() {
                     {category !== 'all' && ' : ' + category}
                     {price !== 'all' && ' : Price ' + price}
                     {rating !== 'all' && ' : Rating ' + rating + ' & up'}
-
                     {query !== 'all' ||
                     category !== 'all' ||
                     rating !== 'all' ||
@@ -289,7 +288,16 @@ export default function SearchScreen() {
 
               <Row>
                 {products.map((product) => (
-                  <Col sm={6} lg={4} className="mb-3" key={product._id}>
+                  <Col
+                    sm={6}
+                    lg={4}
+                    //sm={6}
+                    //md={4}
+                    //lg={3}
+                    //xl={2}
+                    className="mb-3"
+                    key={product._id}
+                  >
                     <Product product={product}></Product>
                   </Col>
                 ))}
