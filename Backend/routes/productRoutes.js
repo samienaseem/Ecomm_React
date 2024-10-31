@@ -9,6 +9,68 @@ productRouter.get('/',async(req,res)=>{
     res.send(products)
 })
 
+const PAGE_SIZE = 3
+
+productRouter.get(
+  '/search',
+  expressAsyncHandler(async (req, res) => {
+    const {query} = req;
+    const pageSize= query.pageSize || PAGE_SIZE;
+    const page=query.page || 1;
+    const category= query.category || '';
+    const rating = query.rating || '';
+    const price = query.price || '';
+    const order = query.order || '';
+    const searchQuery= query.query || '';
+
+    const queryFilter = searchQuery && searchQuery !== 'all' ? {
+        name : {
+            $regex: searchQuery,
+            $options: 'i'
+        }
+    }: {}
+
+    const categoryFilter= category && category!=='all' ? { category} : {}
+
+    const priceFilter= price && price !== 'all' ? {
+        price : {
+            $gte:Number(price.split('-')[0]),
+            $lte:Number(price.split('-')[1])
+        }
+    }:{}
+    const ratingFilter = rating && rating !== 'all'? {
+        rating:{
+            $gte: Number(rating)
+        }
+    }:{}
+    const sortOrder = 
+    order === 'featured' ? {featured: -1}
+    : order === 'lowest' ? {price : 1} 
+    : order === 'highest' ? {price: -1}
+    : order === 'toprated' ? {rating : -1}
+    : order === 'newest' ? {createdAt: -1}
+    : {_id: -1}
+    
+    const combinedFilter = {
+        ...queryFilter,
+        ...categoryFilter,
+        ...priceFilter,
+        ...ratingFilter,
+    }
+
+    const products = await Product.find(combinedFilter).sort(sortOrder).skip(pageSize * (page - 1)).limit(pageSize)
+
+    const countProducts = await Product.countDocuments(combinedFilter);
+
+    res.send({
+        products,
+        countProducts,
+        page,
+        pages: Math.ceil(countProducts/pageSize)
+    });
+  })
+);
+
 productRouter.get("/categories", expressAsyncHandler(async(req,res)=>{
     const categories=await Product.find().distinct('category');
     res.send(categories);

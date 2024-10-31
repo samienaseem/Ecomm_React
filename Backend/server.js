@@ -30,6 +30,7 @@ app.use('/api/seed',seedRouter);
 
 // we have created a product router for the below request /api/product will be handled by productRouter 
 app.use('/api/product',productRouter);
+
 // app.get('/api/product',(req,res)=>{
 //     res.send(data.Products)
 // })

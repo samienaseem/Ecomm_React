@@ -6,15 +6,27 @@ import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Product from '../Components/Product';
 
+import { LinkContainer } from 'react-router-bootstrap';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
 import Rating from '../Components/Rating';
 
-const reducer =(state, action)=>{
+const reducer = (state, action)=>{
     switch(action.type){
         case "FETCH_REQUEST":{
-            return {...state, loading: false}
+            return {...state, loading: true}
+        }
+        case "FETCH_SUCCESS":{
+            return {
+              ...state,
+              products: action.payload.products,
+              page: action.payload.page,
+              pages: action.payload.pages,
+              countProducts: action.payload.countProducts,
+              loading: false,
+            };
         }
         case "FETCH_FAIL":{
             return {...state, loading:false, error:action.payload};
@@ -75,27 +87,30 @@ export default function SearchScreen() {
       },
     ];
 
-    console.log({ seaechScreen: sp });
+    console.log({ searchScreen: sp });
 
     const [{error,loading, pages, products, countProducts},dispatch]=useReducer(reducer,{
         loading:true,
         error:'',
-        countProducts: 0
+        countProducts: 0,
+        products:[]
     })
 
     useEffect(()=>{
         const fetchData=async()=>{
             dispatch({ type: 'FETCH_REQUEST' });
             try {
-              //const { data } = await axios.get(`/api/product/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
-              //dispatch({type:"FETCH_SUCCESS", payload: data});
+              const { data } = await axios.get(
+                `/api/product/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+              );
+              dispatch({type: "FETCH_SUCCESS", payload: data});
             } catch (err) {
-              dispatch({ type: 'FETCH_FAIL' });
+              dispatch({ type: 'FETCH_FAIL', payload: err.message });
               toast.error(err.message);
             }
         }
         fetchData();
-    },[category, order, page, price, query, rating])
+    },[category, order, page, price, query, rating,error])
 
     const [categories, setCategories]=useState([]);
 
@@ -112,17 +127,29 @@ export default function SearchScreen() {
         fetchCategories();
     },[dispatch])
 
-    const getFilterUrl=(filter)=>{
-        const filterPage= filter.page || page;
-        const filterCategory=filter.category || category;
-        const filterQuery = filter.query || query;
-        const filterPrice = filter.price || price;
-        const filterRating = filter.rating || rating;
-        const filterOrder = filter.order || order;
+    // const getFilterUrl=(filter)=>{
+    //     const filterPage= filter.page || page;
+    //     const filterCategory=filter.category || category;
+    //     const filterQuery = filter.query || query;
+    //     const filterPrice = filter.price || price;
+    //     const filterRating = filter.rating || rating;
+    //     const filterOrder = filter.order || order;
 
-        return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`
+    //     return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`
 
-    }
+    // }
+
+    const getFilterUrl = (filter, skipPathname) => {
+    const filterPage = filter.page || page;
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterRating = filter.rating || rating;
+    const filterPrice = filter.price || price;
+    const sortOrder = filter.order || order;
+    return `${
+      skipPathname ? '' : '/search?'
+    }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
+  };
 
   return (
     <div>
@@ -225,6 +252,7 @@ export default function SearchScreen() {
                     {category !== 'all' && ' : ' + category}
                     {price !== 'all' && ' : Price ' + price}
                     {rating !== 'all' && ' : Rating ' + rating + ' & up'}
+
                     {query !== 'all' ||
                     category !== 'all' ||
                     rating !== 'all' ||
@@ -241,15 +269,46 @@ export default function SearchScreen() {
                 <Col className="text-end">
                   <div>
                     Sort By :{' '}
-                    <select value={order} onChange={(e)=>{navigate(getFilterUrl({order : e.target.value}))}}>
+                    <select
+                      value={order}
+                      onChange={(e) => {
+                        navigate(getFilterUrl({ order: e.target.value }));
+                      }}
+                    >
                       <option value="newest">Newest Arrival</option>
-                      <option value="highest">Price: Low to High</option>
-                      <option value="lowest">Price: High to Low</option>
+                      <option value="lowest">Price: Low to High</option>
+                      <option value="highest">Price: High to Low</option>
                       <option value="toprated">Customer Reviews</option>
                     </select>
                   </div>
                 </Col>
               </Row>
+              {products.length === 0 && (
+                <MessageBox>No Product Found</MessageBox>
+              )}
+
+              <Row>
+                {products.map((product) => (
+                  <Col sm={6} lg={4} className="mb-3" key={product._id}>
+                    <Product product={product}></Product>
+                  </Col>
+                ))}
+              </Row>
+
+              <div className="justify-content-center">
+                {[...Array(pages).keys()].map((x) => (
+                  <LinkContainer
+                    key={x + 1}
+                    to={{
+                      pathname: '/search',
+                      search: getFilterUrl({ page: x + 1 }, true),
+                    }}
+                    className="mx-1"
+                  >
+                    <Button variant="light">{x + 1}</Button>
+                  </LinkContainer>
+                ))}
+              </div>
             </>
           )}
         </Col>
