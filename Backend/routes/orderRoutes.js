@@ -1,7 +1,9 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/OrderModel.js';
-import { isAuth } from '../utils.js';
+import User from '../models/userModel.js';
+import { isAdmin, isAuth } from '../utils.js';
+
 
 const orderRouter=express.Router();
 
@@ -22,6 +24,27 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async(req,res)=>{
     })
     const order=await newOrder.save();
     res.status(200).send({message:"New Order created",order})
+}))
+
+orderRouter.get('/summary', isAuth, isAdmin, expressAsyncHandler(async(req,res)=>{
+    const orders= await Order.aggregate([
+        {
+            $group:{
+                _id:null,
+                numOrders: {$sum : 1},
+                totalSales: {$sum : '$totalPrice'}
+            }
+        }
+    ])
+    const  users= await User.aggregate([
+        {
+            $group:{
+                _id:null,
+                numUsers:{$sum : 1}
+            }
+        }
+    ])
+    res.send({orders, users})
 }))
 
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async(req,res)=>{
