@@ -157,7 +157,7 @@ export default function SearchScreen() {
         <title>Search Products</title>
       </Helmet>
       <Row>
-        <Col sm={4} md={3} lg={2}>
+        <Col sm={3} md={3} lg={2}>
           <h4>Departments</h4>
           <div>
             <ul>
@@ -237,7 +237,7 @@ export default function SearchScreen() {
             </ul>
           </div>
         </Col>
-        <Col sm={8} md={9} lg={10}>
+        <Col sm={9} md={9} lg={10}>
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : error ? (

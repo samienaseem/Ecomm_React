@@ -35,8 +35,8 @@ orderRouter.get('/summary', isAuth, isAdmin, expressAsyncHandler(async(req,res)=
                 totalSales: {$sum : '$totalPrice'}
             }
         }
-    ])
-    const  users= await User.aggregate([
+    ]);
+    const  users = await User.aggregate([
         {
             $group:{
                 _id:null,
@@ -44,7 +44,7 @@ orderRouter.get('/summary', isAuth, isAdmin, expressAsyncHandler(async(req,res)=
             }
         }
     ])
-    res.send({orders, users})
+    res.send({users, orders})
 }))
 
 orderRouter.get('/mine', isAuth, expressAsyncHandler(async(req,res)=>{

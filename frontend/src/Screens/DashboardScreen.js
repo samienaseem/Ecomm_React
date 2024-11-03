@@ -9,54 +9,55 @@ import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
 import { Store } from '../Store';
 
-
-const reducer = (state,action)=>{
-    switch(action.type){
-        case "FETCH_REQUEST":{
-            return {...state, loading:true}
-        }
-        case "FETCH_SUCCESS":{
-            return {...state, loading:false, summary: action.payload}
-        }
-        case "FETCH_FAIL":{
-            return {...state,loading:false, error: action.payload}
-        }
-        default:{
-            return state;
-        }
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST': {
+      return { ...state, loading: true };
     }
-}
+    case 'FETCH_SUCCESS': {
+      return { ...state, loading: false, summary: action.payload };
+    }
+    case 'FETCH_FAIL': {
+      return { ...state, loading: false, error: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 export default function DashboardScreen() {
+  const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
+    loading: false,
+    error: '',
+  });
 
- const [{loading,error,summary},dispatch]=useReducer(reducer, {
-    loading:false,
-    error: ''
- })
+  const { state } = useContext(Store);
+  const { userInfo } = state;
 
- const {state} = useContext(Store);
- const {userInfo} = state;
-
- useEffect(()=>{
+  useEffect(() => {
     dispatch({ type: 'FETCH_REQUEST' });
-    const fetchData= async()=>{
-        try{  
-            const { data } = await axios.get('/api/orders/summary', {
-                headers: {
-                    authorization: `Bearer ${userInfo.token}`
-                }
-            })
-            console.log({"DashboardScreen": data})
-            dispatch({type: "FETCH_SUCCESS", payload: data})
-
-        }catch(err){
-            toast.error(err.message)
-            dispatch({type: "FETCH_FAIL", payload: err})
-        }
-    }
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get('/api/orders/summary', {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        console.log({ DashboardScreen: data });
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {
+        const message =
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message;
+        toast.error(message);
+        dispatch({ type: 'FETCH_FAIL', payload: message });
+      }
+    };
     fetchData();
- },[userInfo])
-console.log({"DashboardScreenSummary": summary})
+  }, [userInfo,dispatch]);
+  console.log({ DashboardScreenSummary: summary });
 
   return (
     <div className="container">
