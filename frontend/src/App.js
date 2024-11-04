@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/esm/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Row from 'react-bootstrap/Row';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -78,76 +80,95 @@ function App() {
         <header>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container fluid>
-              <Button
-                className="sidebar-button"
-                variant="dark"
-                onClick={() => {
-                  setSideBarOpen(!sideBarIsOpen);
-                }}
-              >
-                <i className="fas fa-bars"></i>
-              </Button>
+              <div>
+                <Button
+                  className="sidebar-button"
+                  variant="dark"
+                  onClick={() => {
+                    setSideBarOpen(!sideBarIsOpen);
+                  }}
+                >
+                  <i className="fas fa-bars"></i>
+                </Button>
+              </div>
 
-              <LinkContainer to="/">
-                <Navbar.Brand>11th Street Atelier</Navbar.Brand>
-              </LinkContainer>
+              <div>
+                <Row>
+                  <Col lg={6} md={6} sm={12}>
+                    <LinkContainer to="/">
+                      <Navbar.Brand>11th Street Atelier</Navbar.Brand>
+                    </LinkContainer>
+                  </Col>
+                  <Col lg={6} md={6} sm={12}>
+                    <SearchBox />
+                  </Col>
+                </Row>
+                {/* <LinkContainer to="/">
+                  <Navbar.Brand>11th Street Atelier</Navbar.Brand>
+                </LinkContainer> */}
 
-              <SearchBox />
+                {/* <SearchBox /> */}
+              </div>
 
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto w-100 justify-content-end">
-                  <Link to="/cart" className="nav-link">
-                    Cart{' '}
-                    {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
-                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                      </Badge>
-                    )}
-                  </Link>
-                  {userInfo ? (
-                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                      <LinkContainer to="/profile">
-                        <NavDropdown.Item>Profile</NavDropdown.Item>
-                      </LinkContainer>
-                      <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
-                      </LinkContainer>
-                      <NavDropdown.Divider />
-                      <Link
-                        to="#signout"
-                        className="dropdown-item"
-                        onClick={SignoutHandler}
-                      >
-                        Sign Out
-                      </Link>
-                    </NavDropdown>
-                  ) : (
-                    <Link className="nav-link" to="/signin">
-                      Sign In
+              <div>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="me-auto w-100 justify-content-end">
+                    <Link to="/cart" className="nav-link">
+                      Cart{' '}
+                      {cart.cartItems.length > 0 && (
+                        <Badge pill bg="danger">
+                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        </Badge>
+                      )}
                     </Link>
-                  )}
-                  {userInfo && userInfo.isAdmin && (
-                    <NavDropdown title="Admin" id="admin-nav-dropdown">
-                      <LinkContainer to="/admin/dashboard">
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                      </LinkContainer>
+                    {userInfo ? (
+                      <NavDropdown
+                        title={userInfo.name}
+                        id="basic-nav-dropdown"
+                      >
+                        <LinkContainer to="/profile">
+                          <NavDropdown.Item>Profile</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/orderhistory">
+                          <NavDropdown.Item>Order History</NavDropdown.Item>
+                        </LinkContainer>
+                        <NavDropdown.Divider />
+                        <Link
+                          to="#signout"
+                          className="dropdown-item"
+                          onClick={SignoutHandler}
+                        >
+                          Sign Out
+                        </Link>
+                      </NavDropdown>
+                    ) : (
+                      <Link className="nav-link" to="/signin">
+                        Sign In
+                      </Link>
+                    )}
+                    {userInfo && userInfo.isAdmin && (
+                      <NavDropdown title="Admin" id="admin-nav-dropdown">
+                        <LinkContainer to="/admin/dashboard">
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        </LinkContainer>
 
-                      <LinkContainer to="/admin/productlist">
-                        <NavDropdown.Item>Products</NavDropdown.Item>
-                      </LinkContainer>
+                        <LinkContainer to="/admin/productlist">
+                          <NavDropdown.Item>Products</NavDropdown.Item>
+                        </LinkContainer>
 
-                      <LinkContainer to="/admin/orderlist">
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
-                      </LinkContainer>
+                        <LinkContainer to="/admin/orderlist">
+                          <NavDropdown.Item>Orders</NavDropdown.Item>
+                        </LinkContainer>
 
-                      <LinkContainer to="/admin/userlist">
-                        <NavDropdown.Item>Users</NavDropdown.Item>
-                      </LinkContainer>
-                    </NavDropdown>
-                  )}
-                </Nav>
-              </Navbar.Collapse>
+                        <LinkContainer to="/admin/userlist">
+                          <NavDropdown.Item>Users</NavDropdown.Item>
+                        </LinkContainer>
+                      </NavDropdown>
+                    )}
+                  </Nav>
+                </Navbar.Collapse>
+              </div>
             </Container>
           </Navbar>
           {/* <a href="/">11th Street Atelier</a> */}
