@@ -42,6 +42,15 @@ header a {
     letter-spacing: 4px;
 } */
 
+/* Navbar */
+.navbar > .container-fluid{
+  display: block;
+}
+.right-nav-menu-button{
+  text-align: end;
+}
+
+
 .products{
   display: flex;
   flex-wrap: wrap;
@@ -128,7 +137,7 @@ header a {
   left: -1;
 }
 .sidebar-button{
-  margin: 0px 10px;
+  margin: 0px 0px;
 }
 .navbar-brand {
   font-weight: bold;
@@ -152,7 +161,11 @@ header a {
 }
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-
+  /* navbar */
+  .navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: absolute;
+        left: -72px;
+  }
 }
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {

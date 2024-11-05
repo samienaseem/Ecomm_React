@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "axiom": "^0.1.6"
+    "axiom": "^0.1.6",
+    "react-google-charts": "^5.2.1"
   },
   "name": "ecommerce_project",
   "description": "PAT -> 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",

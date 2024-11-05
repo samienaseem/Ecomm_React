@@ -158,7 +158,7 @@ function App() {
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container fluid>
               <Row>
-                <Col>
+                <Col xxl={1} xl={1} lg={1} md={1} sm={1} xs={1}>
                   <Button
                     className="sidebar-button"
                     variant="dark"
@@ -169,14 +169,27 @@ function App() {
                     <i className="fas fa-bars"></i>
                   </Button>
                 </Col>
-                <Col>
-                  <LinkContainer to="/">
-                    <Navbar.Brand>11th Street Atelier</Navbar.Brand>
-                  </LinkContainer>
-
-                  <SearchBox />
+                <Col xxl={8} xl={8} lg={8} md={9} sm={9} xs={9}>
+                  <Row>
+                    <Col xl={3} lg={4} md={4} sm={5}>
+                      <LinkContainer to="/">
+                        <Navbar.Brand>11th Street Atelier</Navbar.Brand>
+                      </LinkContainer>
+                    </Col>
+                    <Col xl={9} lg={8} md={8} sm={7}>
+                      <SearchBox />
+                    </Col>
+                  </Row>
                 </Col>
-                <Col>
+                <Col
+                  xxl={3}
+                  xl={3}
+                  lg={3}
+                  md={2}
+                  sm={2}
+                  xs={2}
+                  className="right-nav-menu-button"
+                >
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto w-100 justify-content-end">

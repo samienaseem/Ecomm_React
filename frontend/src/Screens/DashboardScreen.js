@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Chart from 'react-google-charts';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import LoadingBox from '../Components/LoadingBox';
@@ -27,36 +28,46 @@ const reducer = (state, action) => {
 };
 
 export default function DashboardScreen() {
+
+   const { state, dispatch:ctxDispatch } = useContext(Store);
+   const { userInfo } = state; 
+
   const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
     loading: false,
     error: '',
+    summary: [],
   });
 
-  const { state } = useContext(Store);
-  const { userInfo } = state;
+  
+
+  console.log({"UserinfoDashboard":userInfo})
 
   useEffect(() => {
+    console.log('sending request');
     dispatch({ type: 'FETCH_REQUEST' });
     const fetchData = async () => {
       try {
+        
         const { data } = await axios.get('/api/orders/summary', {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
           },
         });
-        console.log({ DashboardScreen: data });
+        console.log({ "DashboardScreen": data });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
+        
         const message =
           err.response && err.response.data.message
             ? err.response.data.message
             : err.message;
-        toast.error(message);
         dispatch({ type: 'FETCH_FAIL', payload: message });
+        toast.error(message);
+        
       }
     };
     fetchData();
-  }, [userInfo,dispatch]);
+  }, [userInfo]);
   console.log({ DashboardScreenSummary: summary });
 
   return (
@@ -102,6 +113,7 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
+                    £
                     {summary.orders && summary.users[0]
                       ? summary.orders[0].totalSales
                       : 0}
@@ -111,6 +123,27 @@ export default function DashboardScreen() {
               </Card>
             </Col>
           </Row>
+          <div className="my-3">
+            <h2>Sales</h2>
+            <div>
+              {!summary.dailyOrders || summary.dailyOrders.length === 0 ? (
+                <h1>No Orders</h1>
+              ) : (
+                <Chart
+                  width="100%"
+                  height="400px"
+                  chartType="AreaChart"
+                  loader={<div>Loading Chart...</div>}
+                  data={[
+                    ['Date', 'Sales'],
+                    ...(summary.dailyOrders
+                      ? summary.dailyOrders.map((x) => [x._id, x.sales])
+                      : []),
+                  ]}
+                ></Chart>
+              )}
+            </div>
+          </div>
         </>
       )}
     </div>
