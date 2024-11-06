@@ -48,6 +48,7 @@ function Product(props){
               <Button variant='light' disabled> Out of Stock</Button>
             ):(
           <Button onClick={()=>addtoCartHandler(product)}>Add to Cart</Button>
+          
             )
             }
         </Card.Body>

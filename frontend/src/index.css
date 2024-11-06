@@ -157,6 +157,7 @@ header a {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+  
 
 }
 /* Large devices (desktops, 992px and up) */
@@ -201,3 +202,4 @@ header a {
 @media (min-width: 1200px) and (max-width: 1399.98px) {
     
 }
+

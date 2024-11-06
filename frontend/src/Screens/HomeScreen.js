@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import Loading from '../Components/Loading';
 import MessageBox from '../Components/MessageBox';
 import Product from '../Components/Product';
+import Productcopy from '../Components/Productcopy';
 
 const reducer =(state,action)=>{
   switch(action.type){
@@ -58,20 +59,41 @@ function HomeScreen(){
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
             // <h3>{error}</h3>
-            <Row>
-              {products.map((product) => (
-                <Col
-                  key={product._id}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  
-                  className="mb-3"
-                >
-                  <Product product={product}></Product>
-                </Col>
-              ))}
-            </Row>
+            <div>
+              <Row>
+                {products.map((product) => (
+                  <Col
+                    key={product._id}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    xs={6}
+                    className="mb-3"
+                  >
+                    <Product product={product}></Product>
+                    {/* <Productcopy product={product}></Productcopy>  */}
+                  </Col>
+                ))}
+              </Row>
+
+              <Row xs={2} sm={2} md={3} lg={4} className="g-4">
+                {products.map((product, idx) => (
+                  <Col key={idx}>
+                    <Productcopy product={product} />
+                  </Col>
+                ))}
+              </Row>
+
+              {/* with tailwind.css */}
+              {/* <div className="max-w-sm mx-auto p-4">
+                {products.map((product) => (
+                  <Productcopy
+                    product={product}
+                    onAddToCart={""}
+                  />
+                ))}
+              </div> */}
+            </div>
           )}
         </div>
       </div>

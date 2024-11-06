@@ -6,7 +6,7 @@ function Rating(props) {
         <i
           className={
             rating >= 1
-              ? 'fas fa-star'
+              ? 'far fa-star'
               : rating >= 0.5
               ? 'fas fa-star-half-alt'
               : 'far fa-star'
@@ -59,8 +59,10 @@ function Rating(props) {
       </span>
       {caption ? (
         <span>{caption}</span>
-      ) : (
+      ) : reviews ? (
         <span>{' ' + reviews + ' reviews'}</span>
+      ) : (
+        ''
       )}
     </div>
   );
