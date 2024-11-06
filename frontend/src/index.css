@@ -19,7 +19,7 @@ main{
   position: relative;
 }
 div{
-  border: 0.3px solid red;
+  /* border: 0.3px solid red; */
   transition: 0.5s ease-out;
 }
 
