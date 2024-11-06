@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
+import { isAdmin, isAuth } from '../utils.js';
 
 const productRouter=express.Router();
 
@@ -70,6 +71,24 @@ productRouter.get(
     });
   })
 );
+
+productRouter.get('/productlist',isAuth, isAdmin, expressAsyncHandler(async(req,res)=>{
+  const {query}= req;
+  const page=query.page || 1;
+  const pageSize = query.pageSize || PAGE_SIZE
+
+  const productlist = await Product.find().skip(pageSize * (page-1)).limit(pageSize);
+  //const productLength=productlist.length
+
+  const countProducts=await Product.countDocuments();
+  
+  const pages= Math.ceil(countProducts/pageSize);
+  res.send({
+    productlist, 
+    countProducts, 
+    pages,
+    page})
+}))
 
 productRouter.get("/categories", expressAsyncHandler(async(req,res)=>{
     const categories=await Product.find().distinct('category');

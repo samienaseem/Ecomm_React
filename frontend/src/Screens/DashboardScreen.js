@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Chart from 'react-google-charts';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import ChartComponent from '../Components/ChartComponent';
@@ -142,6 +143,27 @@ export default function DashboardScreen() {
                 //       : []),
                 //   ]}
                 // />
+              )}
+            </div>
+          </div>
+
+          <div className="my-3">
+            <h2>Categories</h2>
+            <div>
+              {!summary.productCategories ||
+              summary.productCategories.length === 0 ? (
+                <MessageBox>No Categories</MessageBox>
+              ) : (
+                <Chart
+                  width="100%"
+                  height="400px"
+                  chartType="PieChart"
+                  loader={<div>Loading Chart...</div>}
+                  data={[
+                    ['Category', 'Products'],
+                    ...summary.productCategories.map((x) => [x._id, x.count]),
+                  ]}
+                />
               )}
             </div>
           </div>

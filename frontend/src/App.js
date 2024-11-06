@@ -23,6 +23,7 @@ import OrderHistoryScreen from './Screens/OrderHistoryScreen';
 import OrderScreen from './Screens/OrderScreen';
 import PaymentMethodScreen from './Screens/PaymentMethodScreen';
 import PlaceOrderScreen from './Screens/PlaceOrderScreen';
+import ProductListScreen from './Screens/ProductListScreen';
 import ProductScreen from './Screens/ProductScreen';
 import ProfileScreen from './Screens/ProfileScreen';
 import SearchScreen from './Screens/SearchScreen';
@@ -324,6 +325,13 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+              <Route path='/admin/productlist' element={
+                <AdminRoute>
+                  <ProductListScreen/>
+                </AdminRoute>
+              }>
+
+              </Route>
 
               <Route path="/" element={<HomeScreen />} />
             </Routes>

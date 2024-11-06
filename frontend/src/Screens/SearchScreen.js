@@ -40,7 +40,7 @@ const reducer = (state, action)=>{
 export default function SearchScreen() {
     const navigate=useNavigate()
     const {search}=useLocation();
-    const sp=new URLSearchParams(search); // /search/?cateegory=Shirt
+    const sp=new URLSearchParams(search); // /search/?category=Shirt
 
     const category = sp.get('category') || 'all';
     const query=sp.get('query')|| "all";
@@ -313,7 +313,7 @@ export default function SearchScreen() {
                     }}
                     className="mx-1"
                   >
-                    <Button variant="light">{x + 1}</Button>
+                    <Button variant="light" className={x+1===Number(page) ? 'text-bold' : ''}>{x + 1}</Button>
                   </LinkContainer>
                 ))}
               </div>
