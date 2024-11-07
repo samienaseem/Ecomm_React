@@ -90,6 +90,42 @@ header a {
 .cartItemQuantity{
   margin: 0px 10px;
 }
+.hover-primary:hover {
+    color: #0d6efd !important;
+  }
+
+  .object-fit-cover {
+    object-fit: cover;
+  }
+
+  /* Custom button styles */
+  .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+  }
+
+  .btn-warning:hover {
+    background-color: #ffca2c;
+    border-color: #ffc720;
+  }
+
+  /* Make quantity input arrows less prominent */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    padding: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .product-image {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+
+/* ------------------------------------------------------------------------------------------------------- */
 
 /* Sign In Screen */
 .small-container{

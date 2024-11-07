@@ -1,15 +1,27 @@
 import axios from "axios"
 import { useContext } from "react"
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/esm/Button'
-import Col from "react-bootstrap/esm/Col"
-import Container from "react-bootstrap/esm/Container"
-import Row from "react-bootstrap/esm/Row"
+// import Card from 'react-bootstrap/Card'
+// import Button from 'react-bootstrap/esm/Button'
+// import Col from "react-bootstrap/esm/Col"
+// import Container from "react-bootstrap/Container"
+// import Row from "react-bootstrap/esm/Row"
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Helmet } from "react-helmet-async"
 import { Link, useNavigate } from "react-router-dom"
 import MessageBox from "../Components/MessageBox"
 import { Store } from "../Store"
+
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  InputGroup,
+  Row,
+} from 'react-bootstrap'
+import { Dash, Plus, Trash } from 'react-bootstrap-icons'
 
 export default function CartScreen() {
     const navigate=useNavigate()
@@ -60,7 +72,7 @@ export default function CartScreen() {
                   <Link to="/"> Go Shopping</Link>
                 </MessageBox>
               ) : (
-                <ListGroup>
+                <ListGroup variant="flush">
                   {cartItems
                     .slice() // Creates a shallow copy of the array to avoid mutating the original cartItems
                     .reverse() // Reverse the copy of the array so new items appear on top
@@ -163,7 +175,7 @@ export default function CartScreen() {
                     <ListGroup.Item>
                       <div className="d-grid">
                         <Button
-                        onClick={CheckoutCartHandler}
+                          onClick={CheckoutCartHandler}
                           variant="primary"
                           type="button"
                           disabled={cartItems.length === 0}
@@ -175,6 +187,116 @@ export default function CartScreen() {
                   </ListGroup>
                 </Card.Body>
               </Card>
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Cart Items */}
+            <Col lg={8} md={7}>
+              <Card className="mb-4">
+                <Card.Body>
+                  {cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="d-flex align-items-start mb-4 pb-4 border-bottom"
+                    >
+                      {/* Product Image */}
+                      <div
+                        className="me-4"
+                        style={{ width: '120px', height: '150x' }}
+                      >
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fluid
+                          className="w-100 h-100 object-fit-cover"
+                        />
+                      </div>
+
+                      {/* Product Details */}
+                      <div className="flex-grow-1">
+                        <div className="d-flex justify-content-between align-items-start mb-2">
+                          <h5 className="mb-0">
+                            <a
+                              href="#"
+                              className="text-dark text-decoration-none hover-primary"
+                            >
+                              {item.name}
+                            </a>
+                          </h5>
+                          <Button
+                            variant="link"
+                            className="text-danger p-0"
+                            title="Remove item"
+                          >
+                            <Trash size={18} />
+                          </Button>
+                        </div>
+
+                        {/* Price & Quantity Controls */}
+                        <div className="d-flex justify-content-between align-items-center mt-3">
+                          <div style={{ maxWidth: '120px' }}>
+                            <InputGroup size="sm">
+                              <Button variant="outline-secondary">
+                                <Dash />
+                              </Button>
+                              <Form.Control
+                                type="text"
+                                min="1"
+                                value={item.quantity}
+                                className="text-center"
+                                style={{ maxWidth: '60px' }}
+                              />
+                              <Button variant="outline-secondary">
+                                <Plus />
+                              </Button>
+                            </InputGroup>
+                          </div>
+                          <h5 className="mb-0">£{item.price.toFixed(2)}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </Card.Body>
+              </Card>
+            </Col>
+            {/* Order Summary */}
+            <Col lg={4} md={5}>
+              <Card>
+                <Card.Body>
+                  <h5 className="mb-4">Order Summary</h5>
+
+                  <div className="d-flex justify-content-between mb-3">
+                    <span>Subtotal ({cartItems.length} items)</span>
+                    <span>£50</span>
+                  </div>
+
+                  <div className="d-flex justify-content-between mb-3">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                  </div>
+
+                  <hr />
+
+                  <div className="d-flex justify-content-between mb-4">
+                    <strong>Total</strong>
+                    <strong>£50</strong>
+                  </div>
+
+                  <Button variant="warning" size="lg" className="w-100">
+                    Proceed to Checkout
+                  </Button>
+                </Card.Body>
+              </Card>
+
+              {/* Continue Shopping */}
+              <Button
+                variant="outline-secondary"
+                className="w-100 mt-3"
+                href="/"
+              >
+                Continue Shopping
+              </Button>
             </Col>
           </Row>
         </Container>
