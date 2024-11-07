@@ -50,6 +50,15 @@ header a {
   text-align: end;
 }
 
+/* --------------------------------------------Homescreen--------------------------------------------------------------------- */
+
+.products .row >* {
+  
+  padding: 0px;
+  /* padding-right: calc(var(--bs-gutter-x)* .5);
+  padding-left: calc(var(--bs-gutter-x)* .5); */
+}
+
 
 .products{
   display: flex;
