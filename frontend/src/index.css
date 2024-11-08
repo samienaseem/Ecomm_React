@@ -50,6 +50,43 @@ header a {
   text-align: end;
 }
 
+/* -----------------------------------------------NAVBAR APP.JS-------------------------------------------------------------- */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+  }
+
+  .nav-link {
+    color: #1a1a1a !important;
+  }
+
+  .nav-link:hover {
+    color: #0d6efd !important;
+  }
+
+  .transition-all {
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+  }
+
+  @media (max-width: 992px) {
+    .navbar-brand {
+      font-size: 1.2rem;
+    }
+  }
+
+
+
 /* --------------------------------------------Homescreen--------------------------------------------------------------------- */
 
 .products .row >* {
@@ -91,7 +128,7 @@ header a {
 .rounded{
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
-
+/* ------------------------------------------------------CART SCREEN------------------------------------------------------ */
 /* cartScreen Css */
 .cartItemTitle{
   margin-bottom: 10px;
@@ -134,7 +171,7 @@ header a {
   }
 
 
-/* ------------------------------------------------------------------------------------------------------- */
+/* -----------------------------------------------CART SCREEN END-------------------------------------------------------- */
 
 /* Sign In Screen */
 .small-container{
