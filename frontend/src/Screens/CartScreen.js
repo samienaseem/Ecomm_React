@@ -228,6 +228,9 @@ export default function CartScreen() {
                             variant="link"
                             className="text-danger p-0"
                             title="Remove item"
+                            onClick={() => {
+                              removeItemHandler(item);
+                            }}
                           >
                             <Trash size={18} />
                           </Button>
@@ -237,7 +240,13 @@ export default function CartScreen() {
                         <div className="d-flex justify-content-between align-items-center mt-3">
                           <div style={{ maxWidth: '120px' }}>
                             <InputGroup size="sm">
-                              <Button variant="outline-secondary">
+                              <Button
+                                variant="outline-secondary"
+                                disabled={item.quantity === 1}
+                                onClick={() =>
+                                  UpdateCartHandler(item, item.quantity - 1)
+                                }
+                              >
                                 <Dash />
                               </Button>
                               <Form.Control
@@ -247,7 +256,13 @@ export default function CartScreen() {
                                 className="text-center"
                                 style={{ maxWidth: '60px' }}
                               />
-                              <Button variant="outline-secondary">
+                              <Button
+                                variant="outline-secondary"
+                                disabled={item.quantity === item.countInStock}
+                                onClick={() => {
+                                  UpdateCartHandler(item, item.quantity + 1);
+                                }}
+                              >
                                 <Plus />
                               </Button>
                             </InputGroup>
@@ -267,8 +282,13 @@ export default function CartScreen() {
                   <h5 className="mb-4">Order Summary</h5>
 
                   <div className="d-flex justify-content-between mb-3">
-                    <span>Subtotal ({cartItems.length} items)</span>
-                    <span>£50</span>
+                    <span>
+                      Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
+                      items)
+                    </span>
+                    <span>
+                      £{cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                    </span>
                   </div>
 
                   <div className="d-flex justify-content-between mb-3">
@@ -280,7 +300,9 @@ export default function CartScreen() {
 
                   <div className="d-flex justify-content-between mb-4">
                     <strong>Total</strong>
-                    <strong>£50</strong>
+                    <strong>
+                      £{cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                    </strong>
                   </div>
 
                   <Button variant="warning" size="lg" className="w-100">
