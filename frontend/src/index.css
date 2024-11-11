@@ -247,7 +247,7 @@ header a {
   /* navbar */
   .navbar-expand-lg .navbar-nav .dropdown-menu {
         position: absolute;
-        left: -72px;
+        left: -100px;
   }
 }
 /* Extra large devices (large desktops, 1200px and up) */
