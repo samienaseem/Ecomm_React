@@ -305,7 +305,14 @@ export default function CartScreen() {
                     </strong>
                   </div>
 
-                  <Button variant="warning" size="lg" className="w-100">
+                  <Button
+                    variant="warning"
+                    size="lg"
+                    className="w-100"
+                    onClick={CheckoutCartHandler}
+                    
+                    disabled={cartItems.length === 0}
+                  >
                     Proceed to Checkout
                   </Button>
                 </Card.Body>
