@@ -59,7 +59,7 @@ function ProductScreen(){
     },[slug])
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    console.log({'initialsamie':state})
+    console.log({'initialsamie': state})
     const {cart} = state
     const AddCartItemHandler = async()=>{
 

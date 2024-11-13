@@ -1,5 +1,5 @@
 import axios from 'axios';
-//import { Badge, Eye, Heart, ShoppingCart, Star } from 'lucide-react';
+import { Eye, Heart } from 'lucide-react';
 import { useContext, useState } from 'react';
 import {
   Badge,
@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import { Store } from '../Store';
 import Rating from './Rating';
+
 
 const styles = `
 .product-card {
@@ -212,6 +213,7 @@ function Product(props){
                    onClick={() => setShowQuickView(true)}
                  >
                    <i className="bi bi-eye"></i>
+                   <Eye size={16} />
                  </Button>
                </OverlayTrigger>
 
@@ -235,6 +237,10 @@ function Product(props){
                        isWishlisted ? 'bi-heart-fill' : 'bi-heart'
                      }`}
                    ></i>
+                   <Heart
+                     size={16}
+                     fill={isWishlisted ? 'currentColor' : 'none'}
+                   />
                  </Button>
                </OverlayTrigger>
              </div>
@@ -248,9 +254,7 @@ function Product(props){
              <div className="mb-2">
                <div className="d-flex align-items-center">
                  {/* {renderStars(product.rating)} */}
-                 <Rating
-                   rating={product.rating}
-                 ></Rating>
+                 <Rating rating={product.rating}></Rating>
                  <span className="ms-2 text-muted">({product.numReviews})</span>
                </div>
              </div>
