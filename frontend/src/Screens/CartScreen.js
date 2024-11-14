@@ -195,7 +195,7 @@ export default function CartScreen() {
             <Col lg={8} md={7}>
               <Card className="mb-4">
                 <Card.Body>
-                  {cartItems.map((item) => (
+                  {cartItems.slice().reverse().map((item) => (
                     <div
                       key={item.id}
                       className="d-flex align-items-start mb-4 pb-4 border-bottom"
