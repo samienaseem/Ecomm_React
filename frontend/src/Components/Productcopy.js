@@ -286,6 +286,7 @@ function Product(props){
                variant={product.countInStock === 0 ? 'secondary' : 'primary'}
                className="w-100"
                disabled={product.countInStock === 0}
+               onClick={()=>addtoCartHandler(product)}
              >
                <i className="bi bi-cart-plus me-2"></i>
                {product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
