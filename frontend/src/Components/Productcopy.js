@@ -5,6 +5,7 @@ import {
   Badge,
   Button,
   Card,
+  Modal,
   OverlayTrigger,
   ProgressBar,
   Tooltip
@@ -286,13 +287,44 @@ function Product(props){
                variant={product.countInStock === 0 ? 'secondary' : 'primary'}
                className="w-100"
                disabled={product.countInStock === 0}
-               onClick={()=>addtoCartHandler(product)}
+               onClick={() => addtoCartHandler(product)}
              >
                <i className="bi bi-cart-plus me-2"></i>
                {product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
              </Button>
            </Card.Body>
          </Card>
+
+         <Modal
+           show={showQuickView}
+           onHide={() => setShowQuickView(false)}
+           centered
+         >
+           <Modal.Header closeButton>
+             <Modal.Title>{product.name}</Modal.Title>
+           </Modal.Header>
+           <Modal.Body>
+             <img
+               src={product.image}
+               alt={product.name}
+               className="w-100 mb-3"
+               style={{ maxHeight: '300px', objectFit: 'cover' }}
+             />
+             <h5>£{product.price}</h5>
+             <p>Quick view content for {product.name}</p>
+           </Modal.Body>
+           <Modal.Footer>
+             <Button
+               variant="secondary"
+               onClick={() => setShowQuickView(false)}
+             >
+               Close
+             </Button>
+             <Button variant="primary" disabled={product.countInStock === 0}>
+               Add to Cart
+             </Button>
+           </Modal.Footer>
+         </Modal>
        </>
      );
 }
