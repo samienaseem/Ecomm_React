@@ -10,128 +10,11 @@ import {
   ProgressBar,
   Tooltip
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Store } from '../Store';
 import Rating from './Rating';
 
 
-const styles = `
-.product-card {
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.product-image-wrapper {
-  position: relative;
-  padding-top: 100%; /* 1:1 Aspect Ratio */
-  overflow: hidden;
-}
-
-.product-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.product-card:hover .product-image {
-  transform: scale(1.1);
-}
-
-.overlay-buttons {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.product-card:hover .overlay-buttons {
-  opacity: 1;
-}
-
-.badge-corner {
-  position: absolute;
-  z-index: 2;
-}
-
-.badge-corner.top-left {
-  top: 10px;
-  left: 10px;
-}
-
-.badge-corner.top-right {
-  top: 10px;
-  right: 10px;
-}
-
-.price-old {
-  text-decoration: line-through;
-  color: #6c757d;
-  font-size: 0.9em;
-}
-
-.product-title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 2.4em;
-}
-
-.wishlist-btn.active {
-  color: #dc3545;
-  border-color: #dc3545;
-}
-
-.stock-warning {
-  font-size: 0.8em;
-  color: #fd7e14;
-}
-
-/* Responsive font sizes */
-@media (max-width: 768px) {
-  .product-title {
-    font-size: 0.9rem;
-  }
-  
-  .price {
-    font-size: 1.1rem;
-  }
-}
-
-.btn-quick-action {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: white;
-  border: none;
-  transition: all 0.2s ease;
-}
-
-.btn-quick-action:hover {
-  background: #f8f9fa;
-  transform: scale(1.1);
-}
-`;
 
 
 
@@ -180,71 +63,74 @@ function Product(props){
 
      return (
        <>
-         <style>{styles}</style>
          <Card className="product-card">
            {/* Image Section with Overlays */}
            <div className="product-image-wrapper">
-             {/* Status Badges */}
-             {product.countInStock === 0 && (
-               <Badge bg="danger" className="badge-corner top-left">
-                 Out of Stock
-               </Badge>
-             )}
-             {isOnSale && (
-               <Badge bg="success" className="badge-corner top-right">
-                 Sale
-               </Badge>
-             )}
+             <Link to={`/product/${product.slug}`}>
+               {/* Status Badges */}
+               {product.countInStock === 0 && (
+                 <Badge bg="danger" className="badge-corner top-left">
+                   Out of Stock
+                 </Badge>
+               )}
+               {isOnSale && (
+                 <Badge bg="success" className="badge-corner top-right">
+                   Sale
+                 </Badge>
+               )}
 
-             <Card.Img
-               className="product-image"
-               src={product.image}
-               alt={product.name}
-             />
+               <Card.Img
+                 className="product-image"
+                 src={product.image}
+                 alt={product.name}
+               />
 
-             {/* Overlay Actions */}
-             <div className="overlay-buttons">
-               <OverlayTrigger
-                 placement="top"
-                 overlay={<Tooltip>Quick View</Tooltip>}
-               >
-                 <Button
-                   variant="light"
-                   className="btn-quick-action"
-                   onClick={() => setShowQuickView(true)}
+               {/* Overlay Actions */}
+               <div className="overlay-buttons">
+                 <OverlayTrigger
+                   placement="left"
+                   overlay={<Tooltip>Quick View</Tooltip>}
                  >
-                   <i className="bi bi-eye"></i>
-                   <Eye size={16} />
-                 </Button>
-               </OverlayTrigger>
+                   <Button
+                     variant="light"
+                     className="btn-quick-action"
+                     onClick={() => setShowQuickView(true)}
+                   >
+                     <i className="bi bi-eye"></i>
+                     <Eye size={16} />
+                   </Button>
+                 </OverlayTrigger>
 
-               <OverlayTrigger
-                 placement="top"
-                 overlay={
-                   <Tooltip>
-                     {isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                   </Tooltip>
-                 }
-               >
-                 <Button
-                   variant="light"
-                   className={`btn-quick-action ${
-                     isWishlisted ? 'active' : ''
-                   }`}
-                   onClick={() => setIsWishlisted(!isWishlisted)}
+                 <OverlayTrigger
+                   placement="left"
+                   overlay={
+                     <Tooltip>
+                       {isWishlisted
+                         ? 'Remove from Wishlist'
+                         : 'Add to Wishlist'}
+                     </Tooltip>
+                   }
                  >
-                   <i
-                     className={`bi ${
-                       isWishlisted ? 'bi-heart-fill' : 'bi-heart'
+                   <Button
+                     variant="light"
+                     className={`btn-quick-action ${
+                       isWishlisted ? 'active' : ''
                      }`}
-                   ></i>
-                   <Heart
-                     size={16}
-                     fill={isWishlisted ? 'currentColor' : 'none'}
-                   />
-                 </Button>
-               </OverlayTrigger>
-             </div>
+                     onClick={() => setIsWishlisted(!isWishlisted)}
+                   >
+                     <i
+                       className={`bi ${
+                         isWishlisted ? 'bi-heart-fill' : 'bi-heart'
+                       }`}
+                     ></i>
+                     <Heart
+                       size={16}
+                       fill={isWishlisted ? 'currentColor' : 'none'}
+                     />
+                   </Button>
+                 </OverlayTrigger>
+               </div>
+             </Link>
            </div>
 
            <Card.Body>
@@ -308,7 +194,7 @@ function Product(props){
                src={product.image}
                alt={product.name}
                className="w-100 mb-3"
-               style={{ maxHeight: '300px', objectFit: 'cover' }}
+               style={{ maxHeight: '500px', objectFit: 'cover' }}
              />
              <h5>£{product.price}</h5>
              <p>Quick view content for {product.name}</p>
