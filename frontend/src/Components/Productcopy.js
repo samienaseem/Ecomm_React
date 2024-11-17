@@ -66,24 +66,24 @@ function Product(props){
          <Card className="product-card">
            {/* Image Section with Overlays */}
            <div className="product-image-wrapper">
+             {/* Status Badges */}
+             {product.countInStock === 0 && (
+               <Badge bg="danger" className="badge-corner top-left">
+                 Out of Stock
+               </Badge>
+             )}
+             {isOnSale && (
+               <Badge bg="success" className="badge-corner top-right">
+                 Sale
+               </Badge>
+             )}
              <Link to={`/product/${product.slug}`}>
-               {/* Status Badges */}
-               {product.countInStock === 0 && (
-                 <Badge bg="danger" className="badge-corner top-left">
-                   Out of Stock
-                 </Badge>
-               )}
-               {isOnSale && (
-                 <Badge bg="success" className="badge-corner top-right">
-                   Sale
-                 </Badge>
-               )}
-
                <Card.Img
                  className="product-image"
                  src={product.image}
                  alt={product.name}
                />
+               </Link>
 
                {/* Overlay Actions */}
                <div className="overlay-buttons">
@@ -130,7 +130,7 @@ function Product(props){
                    </Button>
                  </OverlayTrigger>
                </div>
-             </Link>
+             {/* </Link> */}
            </div>
 
            <Card.Body>

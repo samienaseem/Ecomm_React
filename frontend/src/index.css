@@ -157,9 +157,9 @@ header a {
 
 .overlay-buttons {
   position: absolute;
-  top: 35px;
+  top: 45px;
   /* left: 0; */
-  right: 11px;
+  right: 13px;
   /* bottom: 0; */
   
   display: flex;
