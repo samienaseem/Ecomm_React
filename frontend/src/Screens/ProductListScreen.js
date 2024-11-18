@@ -11,18 +11,35 @@ import MessageBox from '../Components/MessageBox';
 import { Store } from '../Store';
 
 const reducer =(state,action)=>{
-    switch(action.type){
-        case "FETCH_REQUEST":{
-            return {...state, loading:true}
-        }
-        case "FETCH_SUCCESS":{
-            return {...state, loading: false, products: action.payload.productlist, pages: action.payload.pages}
-        }
-        case "FETCH_FAIL":{
-            return {...state,loading:false, error: action.payload}
-        }
-        default:
-            return state
+    switch (action.type) {
+      case 'FETCH_REQUEST': {
+        return { ...state, loading: true };
+      }
+      case 'FETCH_SUCCESS': {
+        return {
+          ...state,
+          loading: false,
+          products: action.payload.productlist,
+          pages: action.payload.pages,
+        };
+      }
+      case 'FETCH_FAIL': {
+        return { ...state, loading: false, error: action.payload };
+      }
+      case 'CREATE_REQUEST': {
+        return { ...state, loadingCreate: true };
+      }
+      case 'CREATE_SUCCESS': {
+        return {
+          ...state,
+          loadingCreate: false,
+        };
+      }
+      case 'CREATE_FAIL': {
+        return { ...state, loadingCreate: false, errorCreate: action.payload };
+      }
+      default:
+        return state;
     }
 }
 
@@ -35,10 +52,12 @@ export default function ProductListScreen() {
 
     const page=sp.get("page") || 1;
 
-    const [{loading, error, products, pages}, dispatch]=useReducer(reducer, {
+    const [{loading, error, products, pages, loadingCreate, errorCreate}, dispatch]=useReducer(reducer, {
         loading: true,
         error: '',
-        products:[]
+        products:[],
+        loadingCreate: false,
+        errorCreate: ''
     })
 
     useEffect(()=>{
@@ -58,6 +77,26 @@ export default function ProductListScreen() {
         }
         fetchData()
     },[userInfo,page])
+
+    const createProductHandler=async()=>{
+      if(window.confirm("Are you sure to create")){
+        dispatch({ type: 'CREATE_REQUEST' });
+        try {
+          const product = await axios.post('/api/product',
+             {},{ 
+            headers: {
+              authorization : `Bearer ${userInfo.token}`
+            }
+          }
+          )
+          dispatch({type: "CREATE_SUCCESS"})
+          console.log({'NEWPRODUCT':product})
+        } catch (err) {
+          toast.error(err.response.message);
+          dispatch({ type: 'CREATE_FAIL' });
+        }
+      }
+    }
   return (
     <div className="container">
       <Helmet>
@@ -68,7 +107,7 @@ export default function ProductListScreen() {
           <h1 className="my-3">Products</h1>
         </Col>
         <Col className='col text-end my-3'>
-            <Button variant='primary'>Create Product</Button>
+            <Button variant='primary' onClick={createProductHandler}>{loadingCreate ? <LoadingBox></LoadingBox> : 'Create Product'}</Button>
         </Col>
       </Row>
 
