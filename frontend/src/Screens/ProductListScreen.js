@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
@@ -48,6 +48,7 @@ export default function ProductListScreen() {
     const {userInfo} = state;
 
     const {search} = useLocation();
+    const navigate = useNavigate();
     const sp = new URLSearchParams(search);
 
     const page=sp.get("page") || 1;
@@ -82,7 +83,7 @@ export default function ProductListScreen() {
       if(window.confirm("Are you sure to create")){
         dispatch({ type: 'CREATE_REQUEST' });
         try {
-          const product = await axios.post('/api/product',
+          const {data} = await axios.post('/api/product',
              {},{ 
             headers: {
               authorization : `Bearer ${userInfo.token}`
@@ -90,7 +91,8 @@ export default function ProductListScreen() {
           }
           )
           dispatch({type: "CREATE_SUCCESS"})
-          console.log({'NEWPRODUCT':product})
+          console.log({'NEWPRODUCT':data})
+          navigate(`/admin/product/${data.product._id}`)
         } catch (err) {
           toast.error(err.response.message);
           dispatch({ type: 'CREATE_FAIL' });
