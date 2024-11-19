@@ -47,6 +47,7 @@ import {
   NavDropdown,
   Row
 } from 'react-bootstrap';
+import ProductEditScreen from './Screens/ProductEditScreen';
 
 function App() {
 
@@ -229,7 +230,7 @@ function App() {
                           </Badge>
                         )}
                       </Link>
-                      
+
                       {/* Cart */}
                       <LinkContainer to="/cart">
                         <Nav.Link className="p-2 position-relative">
@@ -442,6 +443,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <ProductListScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/product/:id"
+                element={
+                  <AdminRoute>
+                    <ProductEditScreen />
                   </AdminRoute>
                 }
               ></Route>

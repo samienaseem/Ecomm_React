@@ -99,6 +99,9 @@ export default function ProductListScreen() {
         }
       }
     }
+    const editProductHandler=(product)=>{
+      navigate(`/admin/product/${product._id}`)
+    }
   return (
     <div className="container">
       <Helmet>
@@ -138,7 +141,9 @@ export default function ProductListScreen() {
                   <td>{x.price}</td>
                   <td>{x.category}</td>
                   <td>{x.brand}</td>
-                  <td></td>
+                  <td>
+                    <Button onClick={()=>editProductHandler(x)}>Edit</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
