@@ -295,7 +295,7 @@ header a {
 
 /* Sign In Screen */
 .small-container{
-  max-width: 150vh;
+  max-width: 100vh !important;
 }
 
 /* checkoutComponent used in ShippingAddressScreen  */
