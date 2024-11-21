@@ -83,6 +83,29 @@ export default function ProductEditScreen() {
             ></Form.Control>
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="price">
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="image">
+            <Form.Label>Image File</Form.Label>
+            <Form.Control
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="imageFile">
+            <Form.Label>Upload Image</Form.Label>
+            <Form.Control type="file"  />
+            
+          </Form.Group>
+
           <Form.Group className="mb-3" controlId="brand">
             <Form.Label>Brand</Form.Label>
             <Form.Control
