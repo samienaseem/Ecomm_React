@@ -10,26 +10,47 @@ import MessageBox from '../Components/MessageBox';
 import { Store } from '../Store';
 
 const reducer = (state,action)=>{
-    switch(action.type){
-        case 'FETCH_REQUEST':{
-            return {
-              ...state,
-              loading: true,
-            };
-        }
-        case "FETCH_SUCCESS":{
-          return {
-            ...state, loading:false 
-          }
-        }
-        case "FETCH_FAIL":{
-          return {
-            ...state, loading:false, error: action.payload
-          }
-        }
-        default:{
-            return state
-        }
+    switch (action.type) {
+      case 'FETCH_REQUEST': {
+        return {
+          ...state,
+          loading: true,
+        };
+      }
+      case 'FETCH_SUCCESS': {
+        return {
+          ...state,
+          loading: false,
+        };
+      }
+      case 'FETCH_FAIL': {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      }
+      case 'UPDATE_REQUEST': {
+        return {
+          ...state,
+          loadingUpdate: true,
+        };
+      }
+      case 'UPDATE_SUCCESS': {
+        return {
+          ...state,
+          loadingUpdate: false,
+        };
+      }
+      case 'UPDATE_FAIL': {
+        return {
+          ...state,
+          loadingUpdate: false,
+        };
+      }
+      default: {
+        return state;
+      }
     }
 }
 
@@ -42,8 +63,9 @@ export default function ProductEditScreen() {
     const {state} = useContext(Store)
     const {userInfo} = state;
 
-    const[{loading,error},dispatch] = useReducer(reducer,{
+    const[{loading,error,loadingUpdate},dispatch] = useReducer(reducer,{
         loading:false,
+        loadingUpdate:false,
         error:''
     })
 
@@ -85,6 +107,29 @@ export default function ProductEditScreen() {
       
     },[productId])
 
+    const ProductEditSubmitHandker=async(e)=>{
+      e.preventDefault();
+      dispatch({type:"UPDATE_REQUEST"})
+      try{
+        axios.put(`/api/product/${productId}`,{
+          name,
+          slug,
+          price,
+          image,
+          category,
+          brand,
+          countInStock,
+          description
+        },{
+          headers:{
+            authorization : `Bearer ${userInfo.token}`
+          }
+        })
+      }catch(err){
+        dispatch({type:"UPDATE_FAIL"})
+      }
+    }
+
 
   return (
     <div>
@@ -98,7 +143,7 @@ export default function ProductEditScreen() {
         ) : error ? (
           <MessageBox>{error}</MessageBox>
         ) : (
-          <Form>
+          <Form onSubmit={ProductEditSubmitHandker}>
             <Form.Group controlId="name" className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -174,7 +219,7 @@ export default function ProductEditScreen() {
               ></Form.Control>
             </Form.Group>
             <div className="mb-3">
-              <Button type="submit">Update</Button>
+              <Button type="submit">{loadingUpdate? <LoadingBox></LoadingBox>: "Update"}</Button>
             </div>
           </Form>
         )}
