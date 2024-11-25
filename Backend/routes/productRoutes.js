@@ -27,7 +27,7 @@ productRouter.post('/', isAuth, isAdmin, expressAsyncHandler(async(req,res)=>{
   res.send({message:"New product created succesfully", product});
 }))
 
-const PAGE_SIZE = 3
+const PAGE_SIZE = 5
 
 productRouter.get(
   '/search',
