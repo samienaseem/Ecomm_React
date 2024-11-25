@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
@@ -55,7 +55,7 @@ const reducer = (state,action)=>{
 }
 
 export default function ProductEditScreen() {
-
+  const navigate=useNavigate();
     const params=useParams(); //"/product/:id"
     console.log({"Params":params})
     const {id: productId} = params;
@@ -109,9 +109,9 @@ export default function ProductEditScreen() {
 
     const ProductEditSubmitHandker=async(e)=>{
       e.preventDefault();
-      dispatch({type:"UPDATE_REQUEST"})
       try{
-        axios.put(`/api/product/${productId}`,{
+        dispatch({ type: 'UPDATE_REQUEST' });
+        await axios.put(`/api/product/${productId}`,{
           name,
           slug,
           price,
@@ -124,7 +124,12 @@ export default function ProductEditScreen() {
           headers:{
             authorization : `Bearer ${userInfo.token}`
           }
-        })
+        });
+        dispatch({
+          type: "UPDATE_SUCCESS"
+        });
+        toast.success("Product added succesfully");
+        //navigate('/admin/productlist');
       }catch(err){
         dispatch({type:"UPDATE_FAIL"})
       }

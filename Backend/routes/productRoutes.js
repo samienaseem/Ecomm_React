@@ -138,4 +138,26 @@ productRouter.get('/:id', async(req, res) => {
   }
 });
 
+productRouter.put('/:id',isAuth, isAdmin, expressAsyncHandler(async(req,res)=>{
+  const productId=req.params.id;
+  const product=await Product.findById(productId)
+  if(product){
+    product.name=req.body.name;
+    product.slug=req.body.slug;
+    product.image=req.body.image;
+    product.brand=req.body.brand;
+    product.category=req.body.category;
+    product.countInStock=req.body.countInStock;
+    product.description=req.body.description;
+
+     const updateProduct = await product.save();
+     res.send({message:"Product Updated"});
+  
+  }
+  else{
+    res.status(404).send({message:"Product not found"})
+  }
+ 
+}))
+
 export default productRouter;
