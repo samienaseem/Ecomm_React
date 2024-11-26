@@ -100,7 +100,7 @@ export default function ProductListScreen() {
       }
     }
     const editProductHandler=(product)=>{
-      navigate(`/admin/product/${product._id}`)
+      navigate(`/admin/product/${product._id}?page=${page}`)
     }
   return (
     <div className="container">

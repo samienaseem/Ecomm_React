@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
@@ -56,10 +56,16 @@ const reducer = (state,action)=>{
 
 export default function ProductEditScreen() {
   const navigate=useNavigate();
+  const {search} = useLocation();
     const params=useParams(); //"/product/:id"
-    console.log({"Params":params})
+
+    const SearchParams = new URLSearchParams(search);
+    const page = SearchParams.get("page") || 1;
     const {id: productId} = params;
 
+    console.log({ Params: params });
+    console.log({ SearchParams: page });
+    
     const {state} = useContext(Store)
     const {userInfo} = state;
 
@@ -129,7 +135,7 @@ export default function ProductEditScreen() {
           type: "UPDATE_SUCCESS"
         });
         toast.success("Product added succesfully");
-        //navigate('/admin/productlist');
+        navigate(`/admin/productlist?page=${page}`);
       }catch(err){
         dispatch({type:"UPDATE_FAIL"})
       }
